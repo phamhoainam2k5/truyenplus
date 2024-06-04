@@ -16,14 +16,13 @@ public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
 
-    // Endpoint to get all categories
     @GetMapping("")
     public ResponseEntity<Iterable<Category>> getAllCategories() {
         Iterable<Category> categories = categoryService.findAll();
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
-    // Endpoint to get a category by its ID
+
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
         Optional<Category> category = categoryService.findById(id);
@@ -31,14 +30,14 @@ public class CategoryController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    // Endpoint to create a new category
+
     @PostMapping("")
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
         Category createdCategory = categoryService.save(category);
         return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
     }
 
-    // Endpoint to update an existing category
+
     @PutMapping("/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category category) {
         Optional<Category> existingCategory = categoryService.findById(id);

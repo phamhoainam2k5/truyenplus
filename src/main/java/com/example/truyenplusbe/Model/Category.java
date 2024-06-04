@@ -26,7 +26,7 @@ public class Category {
     }
 
     public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+        this.categoryId = Math.toIntExact(categoryId);
     }
 
     public String getCategoryName() {
