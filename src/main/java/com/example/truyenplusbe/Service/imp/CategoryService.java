@@ -5,6 +5,7 @@ import com.example.truyenplusbe.Repository.ICategoryRepository;
 import com.example.truyenplusbe.Service.ICategoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,6 +13,8 @@ import java.util.Optional;
 public class CategoryService implements ICategoryService {
 @Autowired
 private ICategoryRepository iCategoryRepository;
+
+
     @Override
     public Iterable<Category> findAll() {
         return iCategoryRepository.findAll();

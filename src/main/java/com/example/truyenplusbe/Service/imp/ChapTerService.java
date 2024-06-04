@@ -6,6 +6,7 @@ import com.example.truyenplusbe.Repository.IChapterRepository;
 import com.example.truyenplusbe.Service.IChapterService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,6 +14,7 @@ import java.util.Optional;
 public class ChapTerService implements IChapterService  {
 @Autowired
 private IChapterRepository iChapterRepository;
+
 
     @Override
     public Iterable<Chapter> findAll() {

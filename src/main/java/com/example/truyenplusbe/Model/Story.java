@@ -17,6 +17,8 @@ public class Story {
 
     @Column(name = "title", nullable = false, length = 255)
     private String title;
+    @Column(name = "image", nullable = false, length = 255)
+    private String image;
 
     @Lob
     @Column(name = "description")
@@ -52,23 +54,12 @@ public class Story {
         Updating
     }
 
-    public Story(Integer storyId, String title, String description, String author, LocalDateTime createAt, LocalDateTime updatedAt, StoryStatus status, Set<Category> categories) {
-        this.storyId = storyId;
-        this.title = title;
-        this.description = description;
-        this.author = author;
-        this.createAt = createAt;
-        this.updatedAt = updatedAt;
-        this.status = status;
-        this.categories = categories;
-    }
-
     public Integer getStoryId() {
         return storyId;
     }
 
-    public void setStoryId(Integer storyId) {
-        this.storyId = storyId;
+    public void setStoryId(Long storyId) {
+        this.storyId = Math.toIntExact(storyId);
     }
 
     public String getTitle() {
@@ -77,6 +68,14 @@ public class Story {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getDescription() {
@@ -124,6 +123,18 @@ public class Story {
     }
 
     public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
+    public Story(Integer storyId, String title, String image, String description, String author, LocalDateTime createAt, LocalDateTime updatedAt, StoryStatus status, Set<Category> categories) {
+        this.storyId = storyId;
+        this.title = title;
+        this.image = image;
+        this.description = description;
+        this.author = author;
+        this.createAt = createAt;
+        this.updatedAt = updatedAt;
+        this.status = status;
         this.categories = categories;
     }
 }
