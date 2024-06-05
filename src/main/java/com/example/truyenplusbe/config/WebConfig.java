@@ -18,8 +18,4 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("file:C:/Users/Admin/Desktop/du-an2/truyenplus/truyenplus-be/src/main/resources/static/image/");
     }
-
-
-
-
 }
