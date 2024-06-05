@@ -5,10 +5,10 @@ import com.example.truyenplusbe.Repository.ICategoryRepository;
 import com.example.truyenplusbe.Service.ICategoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
 @Service
 public class CategoryService implements ICategoryService {
 @Autowired

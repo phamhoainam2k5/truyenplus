@@ -1,15 +1,14 @@
 package com.example.truyenplusbe.Service.imp;
 
-
 import com.example.truyenplusbe.Model.Chapter;
 import com.example.truyenplusbe.Repository.IChapterRepository;
 import com.example.truyenplusbe.Service.IChapterService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
 @Service
 public class ChapTerService implements IChapterService  {
 @Autowired
