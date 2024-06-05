@@ -10,7 +10,7 @@ public class Chapter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chapter_id")
-    private Integer chapterId;
+    private long chapterId;
 
     @ManyToOne
     @JoinColumn(name = "story_id", nullable = false)
@@ -24,7 +24,7 @@ public class Chapter {
     private String content;
 
     @Column(name = "chapter_number", nullable = false)
-    private Integer chapterNumber;
+    private long chapterNumber;
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
@@ -36,11 +36,11 @@ public class Chapter {
         this.story = story;
     }
 
-    public Integer getChapterId() {
+    public long getChapterId() {
         return chapterId;
     }
 
-    public void setChapterId(Integer chapterId) {
+    public void setChapterId(long chapterId) {
         this.chapterId = chapterId;
     }
 
@@ -68,11 +68,11 @@ public class Chapter {
         this.content = content;
     }
 
-    public Integer getChapterNumber() {
+    public long getChapterNumber() {
         return chapterNumber;
     }
 
-    public void setChapterNumber(Integer chapterNumber) {
+    public void setChapterNumber(long chapterNumber) {
         this.chapterNumber = chapterNumber;
     }
 
@@ -96,7 +96,7 @@ public class Chapter {
 
     }
 
-    public Chapter(Integer chapterId, Story story, String title, String content, Integer chapterNumber, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Chapter(long chapterId, Story story, String title, String content, long chapterNumber, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.chapterId = chapterId;
         this.story = story;
         this.title = title;
