@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface IStoryService  extends IGeneralService<Story>{
 
-
+    List<Story> searchByTitle(String title);
 }

@@ -7,6 +7,7 @@ import com.example.truyenplusbe.Service.IStoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,6 +16,9 @@ public class StoryService implements IStoryService {
     @Autowired
     private IStoryRepository storyRepository;
 
+    public List<Story> searchByTitle(String title) {
+        return storyRepository.findByTitleContainingIgnoreCase(title);
+    }
     @Override
     public Iterable<Story> findAll() {
         return storyRepository.findAll();
@@ -22,7 +26,7 @@ public class StoryService implements IStoryService {
 
     @Override
     public Optional<Story> findById(Long id) {
-        return storyRepository.findById(id);
+        return storyRepository.findById(Math.toIntExact(id));
     }
 
     @Override
@@ -32,7 +36,7 @@ public class StoryService implements IStoryService {
 
     @Override
     public void remove(Long id) {
-storyRepository.deleteById(id);
+storyRepository.deleteById(Math.toIntExact(id));
     }
 }
 

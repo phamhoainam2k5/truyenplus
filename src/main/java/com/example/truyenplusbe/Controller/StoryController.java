@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -22,6 +23,12 @@ public class StoryController {
 
     @Autowired
     private IStoryService storyService;
+
+    @GetMapping("/search")
+    public List<Story> searchStories(@RequestParam("title") String title) {
+        return storyService.searchByTitle(title);
+    }
+
 
     @GetMapping
     public ResponseEntity<Iterable<Story>> listStories() {
