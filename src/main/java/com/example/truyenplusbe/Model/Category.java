@@ -1,39 +1,19 @@
 package com.example.truyenplusbe.Model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
-@Table(name = "categorys")
+@Entity @Table(name = "categories")
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    private Integer categoryId;
+    private Long categoryId;
 
     @Column(name = "category_name", length = 255)
     private String categoryName;
-
-    public Category() {
-    }
-
-    public Category(Integer categoryId, String categoryName) {
-        this.categoryId = categoryId;
-        this.categoryName = categoryName;
-    }
-
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = Math.toIntExact(categoryId);
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
 }
