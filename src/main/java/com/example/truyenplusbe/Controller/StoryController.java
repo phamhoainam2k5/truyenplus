@@ -78,4 +78,14 @@ public class StoryController {
         }
         return null;
     }
+
+    @GetMapping("/detail/{id}") // Đổi tên thành "/detail/{id}" hoặc bất kỳ tên khác không trùng lặp
+    public ResponseEntity<?> getStoryDetailById(@PathVariable Long id) {
+        Optional<Story> story = storyService.findById(id);
+        if (story.isPresent()) {
+            return new ResponseEntity<>(story.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Không tìm thấy câu chuyện với id " + id, HttpStatus.NOT_FOUND);
+        }
+    }
 }
