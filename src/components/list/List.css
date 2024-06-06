@@ -1,0 +1,105 @@
+.lefts {
+    width: 900px;
+    color: var(--color-dark);
+    margin-right: 30px;
+}
+.lefts .left_content {
+    width: 900px;
+    margin-left: 20px;
+}
+.left_content .recent-orders {
+    margin-top: 2rem;
+
+}
+
+.left_content .recent-orders h2 {
+    margin-bottom: 0.8rem;
+
+}
+
+
+.left_content .recent-orders table {
+    background: var(--color-white);
+    width: 100%;
+    border-radius: var(--card-border-radius);
+    padding: var(--card-padding);
+    text-align: center;
+    box-shadow: var(--box-shadow);
+    transition: all 300ms ease;
+}
+
+
+
+table tbody td {
+
+
+    border-bottom: 1px solid var(--color-light);
+    color: var(--color-dark-variant);
+
+
+}
+
+table tbody tr:last-child td {
+
+    border: none;
+
+
+}
+.update{
+    display: flex;
+}
+.message{
+    margin-left: 10px;
+}
+.left_content .recent-orders a {
+
+    text-align: center;
+    display: block;
+    margin: 1rem auto;
+
+}
+.item add-product{
+    width: 30%;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.add-product {
+
+    background-color: transparent;
+    border: 2px dashed var(--color-primary);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    margin-left: 10px;
+    height: 35px;
+    padding: 10px;
+}
+
+.add-product:hover {
+
+    background-color:var(--color-primary);
+    color: var(--color-white);
+}
+
+.add-product div {
+
+
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+
+
+}
+
+.add-product div h3 {
+
+
+    font-weight: 600;
+
+
+}
