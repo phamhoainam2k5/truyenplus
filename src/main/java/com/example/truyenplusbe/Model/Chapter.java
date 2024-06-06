@@ -4,13 +4,12 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "chapters")
+@Entity @Table(name = "chapters")
 public class Chapter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chapter_id")
-    private long chapterId;
+    private Long chapterId;
 
     @ManyToOne
     @JoinColumn(name = "story_id", nullable = false)
@@ -24,7 +23,7 @@ public class Chapter {
     private String content;
 
     @Column(name = "chapter_number", nullable = false)
-    private long chapterNumber;
+    private int chapterNumber;
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
@@ -72,7 +71,7 @@ public class Chapter {
         return chapterNumber;
     }
 
-    public void setChapterNumber(long chapterNumber) {
+    public void setChapterNumber(int chapterNumber) {
         this.chapterNumber = chapterNumber;
     }
 
@@ -96,7 +95,7 @@ public class Chapter {
 
     }
 
-    public Chapter(long chapterId, Story story, String title, String content, long chapterNumber, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Chapter(Long chapterId, Story story, String title, String content, int chapterNumber, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.chapterId = chapterId;
         this.story = story;
         this.title = title;
