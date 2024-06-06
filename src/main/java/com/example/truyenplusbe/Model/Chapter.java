@@ -11,20 +11,17 @@ import java.time.LocalDateTime;
 @Entity @Table(name = "chapters")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Chapter {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chapter_id")
     private Long chapterId;
 
-    @ManyToOne
-    @JoinColumn(name = "story_id", nullable = false)
+    @ManyToOne @JoinColumn(name = "story_id", nullable = false)
     private  Story story;
 
     @Column(name = "title", nullable = false, length = 255)
     private String title;
 
-    @Lob
-    @Column(name = "content", nullable = false)
+    @Lob @Column(name = "content", nullable = false)
     private String content;
 
     @Column(name = "chapter_number", nullable = false)
