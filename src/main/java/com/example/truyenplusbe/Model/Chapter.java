@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class Chapter {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chapter_id")
-    private Integer chapterId;
+    private Long chapterId;
 
     @ManyToOne @JoinColumn(name = "story_id", nullable = false)
     private  Story story;
@@ -25,7 +25,7 @@ public class Chapter {
     private String content;
 
     @Column(name = "chapter_number", nullable = false)
-    private Integer chapterNumber;
+    private int chapterNumber;
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
