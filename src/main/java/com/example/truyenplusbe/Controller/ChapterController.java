@@ -1,74 +1,77 @@
 package com.example.truyenplusbe.Controller;
 
+import com.example.truyenplusbe.Dto.ChapDTO;
 import com.example.truyenplusbe.Model.Chapter;
-import com.example.truyenplusbe.Service.IChapterService;
+import com.example.truyenplusbe.Model.Story;
+import com.example.truyenplusbe.Repository.IChapterRepository;
+import com.example.truyenplusbe.Repository.IStoryRepository;
+import com.example.truyenplusbe.Service.imp.ChapTerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/chapter")
-@Validated
+@RequestMapping("/api/chapters")
+@CrossOrigin("*")
 public class ChapterController {
-
     @Autowired
-    private IChapterService chapterService;
+    private ChapTerService chapTerService;
+    @Autowired
+    private IChapterRepository iChapterRepository;
+    @Autowired
+    private IStoryRepository iStoryRepository;
+    @GetMapping("/story/{storyId}")
+    public ResponseEntity<Iterable<Chapter>> getAllChapByStoryId(@PathVariable Long storyId) {
+        Iterable<Chapter> chapters = iChapterRepository.findByStoryIdOrderByCreatedAtDesc(storyId);
+        if (chapters == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-    @GetMapping("")
-    public ResponseEntity<Iterable<Chapter>> getAllChapter() {
-        Iterable<Chapter> chapters = chapterService.findAll();
         return new ResponseEntity<>(chapters, HttpStatus.OK);
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Chapter> getChapterById(@PathVariable Long id) {
-        Optional<Chapter> chapter = chapterService.findById(id);
-        return chapter.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @PostMapping("")
-    public ResponseEntity<?> createChapter( @RequestBody Chapter chapter) {
-        try {
-            Chapter createdChapter = chapterService.save(chapter);
-            return new ResponseEntity<>(createdChapter, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error creating chapter: " + e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateChapter(@PathVariable Long id,  @RequestBody Chapter chapter) {
-        Optional<Chapter> existingChapter = chapterService.findById(id);
-        if (existingChapter.isPresent()) {
-            chapter.setChapterId(id);
-            try {
-                Chapter updatedChapter = chapterService.save(chapter);
-                return new ResponseEntity<>(updatedChapter, HttpStatus.OK);
-            } catch (Exception e) {
-                return new ResponseEntity<>("Error updating chapter: " + e.getMessage(), HttpStatus.BAD_REQUEST);
-            }
-        } else {
-            return new ResponseEntity<>("Chapter not found", HttpStatus.NOT_FOUND);
-        }
-    }
-
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteChapter(@PathVariable Long id) {
-        Optional<Chapter> existingChapter = chapterService.findById(id);
-        if (existingChapter.isPresent()) {
-            try {
-                chapterService.remove(id);
-                return new ResponseEntity<>(HttpStatus.OK);
-            } catch (Exception e) {
-                return new ResponseEntity<>("Error deleting chapter: " + e.getMessage(), HttpStatus.BAD_REQUEST);
-            }
-        } else {
-            return new ResponseEntity<>("Chapter not found", HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Chapter> deleteChapter(@PathVariable Long id) {
+        Optional<Chapter> chapterOptional = chapTerService.findById(id);
+        Chapter chapter = chapterOptional.get();
+        Story story = chapter.getStory();
+        System.out.println(story.getTotalChapters());
+        story.setTotalChapters(story.getTotalChapters() - 1);
+        System.out.println(story.getTotalChapters());
+
+        iStoryRepository.save(story);
+        System.out.println(story);
+
+        chapTerService.remove(id);
+
+
+
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/{storyId}")
+    public ResponseEntity<Chapter> createChap(@RequestBody ChapDTO chapDTO, @PathVariable Long storyId) throws IOException {
+        Chapter createdChap = chapTerService.saveChap(chapDTO, storyId);
+        return new ResponseEntity<>(createdChap, HttpStatus.CREATED);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Chapter> updateChapter(
+            @PathVariable Long id,
+            @RequestBody ChapDTO chapDTO) throws IOException {
+
+            Chapter updatedChapter = chapTerService.updateChap(chapDTO, id);
+            return ResponseEntity.ok(updatedChapter);
+
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Chapter> getChapById(@PathVariable Long id) {
+        Optional<Chapter> chapter = chapTerService.findById(id);
+        return new ResponseEntity<>(chapter.get(), HttpStatus.OK);
+
+    }
+
 }

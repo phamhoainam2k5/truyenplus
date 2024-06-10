@@ -1,35 +1,51 @@
 package com.example.truyenplusbe.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
-
-@Entity @Table(name = "chapters")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Data
+@Entity
+@Table(name = "chapters")
 public class Chapter {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chapter_id")
     private Long chapterId;
 
-    @ManyToOne @JoinColumn(name = "story_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "story_id", nullable = false)
     private  Story story;
 
     @Column(name = "title", nullable = false, length = 255)
     private String title;
 
-    @Lob @Column(name = "content", nullable = false)
+    @Lob
+    @Column(name = "content", nullable = false)
     private String content;
 
     @Column(name = "chapter_number", nullable = false)
-    private int chapterNumber;
+    private Integer chapterNumber;
 
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Column(name = "updated_at")
+    @LastModifiedDate
     private LocalDateTime updatedAt;
+
+
+    public Chapter() {
+
+    }
+
+    public Chapter(Long chapterId, Story story, String title, String content, Integer chapterNumber, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.chapterId = chapterId;
+        this.story = story;
+        this.title = title;
+        this.content = content;
+        this.chapterNumber = chapterNumber;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 }
