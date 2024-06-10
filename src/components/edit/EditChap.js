@@ -20,7 +20,7 @@ function EditChap() {
                 setChapterNumber(chapterData.chapterNumber);
             })
             .catch(error => {
-                console.error("Error fetching chapter data:", error);
+                console.error("Lỗi rùi hu hu:", error);
             });
     }, [chapterId]);
 

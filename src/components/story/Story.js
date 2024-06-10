@@ -14,7 +14,7 @@ function Story() {
                 setStory(response.data);
 
             } catch (error) {
-                console.error('Error fetching story info:', error);
+                console.error('Lỗi rồi:', error);
             }
         };
 
@@ -25,7 +25,7 @@ function Story() {
             const response = await axios.get(`http://localhost:8080/api/chapters/story/${storyId}`);
             setChapters(response.data);
         } catch (error) {
-            console.error('Error fetching stories:', error);
+            console.error('Lỗi truyện rồi:', error);
         }
     };
     useEffect(() => {

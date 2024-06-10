@@ -36,8 +36,7 @@ function Home() {
     }, []);
     // lưu trữ trạng thái của nội dung có được mở rôộng hay k
     const [isExpanded, setIsExpanded] = useState(false);
-    // mặc định là sai để ẩn đi nội dung
-    // xử lý slide bằng cách duùng thư viện slick và style cuủa slick caroul
+
     const settings = {
         infinite: true,
 

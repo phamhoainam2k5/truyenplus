@@ -41,7 +41,7 @@ function Edit() {
                 console.log(response.data)
             })
             .catch(error => {
-                console.error('Error fetching story:', error);
+                console.error('Lỗi truyện:', error);
             });
 
         axios.get('http://localhost:8080/api/categories')
@@ -49,7 +49,7 @@ function Edit() {
                 setCategories(response.data);
             })
             .catch(error => {
-                console.error('Error fetching categories:', error);
+                console.error('Lỗi danh mục:', error);
             });
     }, [id]);
 
