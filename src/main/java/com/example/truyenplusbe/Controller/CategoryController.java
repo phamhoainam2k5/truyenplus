@@ -2,6 +2,7 @@ package com.example.truyenplusbe.Controller;
 
 import com.example.truyenplusbe.Model.Category;
 import com.example.truyenplusbe.Service.ICategoryService;
+import com.example.truyenplusbe.Service.imp.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,15 +12,18 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/categories")
+@CrossOrigin("*")
 public class CategoryController {
 
     @Autowired
-    private ICategoryService categoryService;
+    private CategoryService categoryService;
 
     @GetMapping("")
     public ResponseEntity<Iterable<Category>> getAllCategories() {
         Iterable<Category> categories = categoryService.findAll();
+
         return new ResponseEntity<>(categories, HttpStatus.OK);
+
     }
 
 

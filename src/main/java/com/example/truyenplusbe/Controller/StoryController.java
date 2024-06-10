@@ -1,9 +1,12 @@
 package com.example.truyenplusbe.Controller;
 
 
+import com.example.truyenplusbe.Dto.StoryDTO;
 import com.example.truyenplusbe.Model.Story;
+import com.example.truyenplusbe.Repository.IStoryRepository;
 import com.example.truyenplusbe.Service.IStoryService;
 import com.example.truyenplusbe.Service.imp.StoryService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,57 +14,71 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/stories")
+@CrossOrigin("*")
 public class StoryController {
     @Autowired
-    private IStoryService storyService;
-
+    private StoryService storyService;
+@Autowired
+private IStoryRepository iStoryRepository;
 
     @GetMapping("")
     public ResponseEntity<Iterable<Story>> getAllStories() {
-        Iterable<Story> stories = storyService.findAll();
+        Iterable<Story> stories = iStoryRepository.findByCreatedAtOrderBy();
+        return new ResponseEntity<>(stories, HttpStatus.OK);
+    }
+    @GetMapping("/status")
+    public ResponseEntity<Iterable<Story>> getStories() {
+        Iterable<Story> stories = iStoryRepository.findByStatus();
         return new ResponseEntity<>(stories, HttpStatus.OK);
     }
 
 
     @GetMapping("/{id}")
     public ResponseEntity<Story> getStoryById(@PathVariable Long id) {
-        Optional<Story> story = storyService.findById(id);
-        return story.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+       Optional<Story> story = storyService.findById(id);
+        return new ResponseEntity<>(story.get(), HttpStatus.OK);
+
     }
 
 
     @PostMapping("")
-    public ResponseEntity<Story> createStory(@RequestBody Story story) {
-        Story createdStory = storyService.save(story);
+    public ResponseEntity<Story> createStory(@ModelAttribute StoryDTO storyDTO) throws IOException {
+        Story createdStory = storyService.saveStory(storyDTO);
         return new ResponseEntity<>(createdStory, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Story> updateStory(@PathVariable Long id, @RequestBody Story story) {
-        Optional<Story> existingStory = storyService.findById(id);
-        if (existingStory.isPresent()) {
-            story.setStoryId(id);
-            Story updatedStory = storyService.save(story);
-            return new ResponseEntity<>(updatedStory, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PutMapping("/{storyId}")
+    public ResponseEntity<Story> updateStory(
+            @PathVariable Long storyId,
+            @ModelAttribute StoryDTO storyDTO) {
+        try {
+            Story updatedStory = storyService.updateStory(storyId, storyDTO);
+            return ResponseEntity.ok(updatedStory);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteStory(@PathVariable Long id) {
-        Optional<Story> existingStory = storyService.findById(id);
-        if (existingStory.isPresent()) {
-            storyService.remove(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Optional<Story> storyOptional = storyService.findById(id);
+        if (!storyOptional.isPresent()) {
+            return new ResponseEntity<>("Không co truyen", HttpStatus.NOT_FOUND);
         }
+
+        storyService.remove(id);
+        return new ResponseEntity<>("Thanh  cong", HttpStatus.OK);
+    }
+    @GetMapping("/chap/{storyId}")
+    public ResponseEntity<Integer> hasChapter(@PathVariable Long storyId) {
+        int hasChapters = iStoryRepository.countStoriesWithChapters(storyId);
+        return ResponseEntity.ok(hasChapters);
     }
 }
