@@ -19,11 +19,11 @@ function Edit() {
     useEffect(() => {
         axios.get(`http://localhost:8080/api/stories/chap/${id}`)
             .then(response => {
-                const hasChapters = response.data > 0; // Kiểm tra số lượng chap trả về từ API
+                const hasChapters = response.data > 0;
                 setHasChapter(hasChapters);
             })
             .catch(error => {
-                console.error("Error checking if story has chapters:", error);
+                console.error("Looi rùi hi hi:", error);
             });
     }, [id]);
 
