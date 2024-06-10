@@ -34,7 +34,7 @@ public class ChapterController {
         return new ResponseEntity<>(chapters, HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteChapter(@PathVariable Long id) {
+    public ResponseEntity<Chapter> deleteChapter(@PathVariable Long id) {
         Optional<Chapter> chapterOptional = chapTerService.findById(id);
         Chapter chapter = chapterOptional.get();
         Story story = chapter.getStory();
@@ -50,7 +50,7 @@ public class ChapterController {
 
 
 
-        return new ResponseEntity<>("Xoá thannh công", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/{storyId}")

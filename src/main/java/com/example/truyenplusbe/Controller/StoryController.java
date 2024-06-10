@@ -63,14 +63,14 @@ private IStoryRepository iStoryRepository;
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteStory(@PathVariable Long id) {
+    public ResponseEntity<Story> deleteStory(@PathVariable Long id) {
         Optional<Story> storyOptional = storyService.findById(id);
         if (!storyOptional.isPresent()) {
-            return new ResponseEntity<>("Không co truyen", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
         }
 
         storyService.remove(id);
-        return new ResponseEntity<>("Thanh  cong", HttpStatus.OK);
+        return new ResponseEntity<>( HttpStatus.OK);
     }
     @GetMapping("/chap/{storyId}")
     public ResponseEntity<Integer> hasChapter(@PathVariable Long storyId) {
