@@ -13,14 +13,15 @@ function Chapter() {
     const [chapter, setChapter] = useState(null);
 
     useEffect(() => {
-        const fetchChapterInfo = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/api/chapters/${chapterId}`);
-                setChapter(response.data);
-                console.log(response.data);
-            } catch (error) {
-                console.error(' Lỗi rồi:', error);
-            }
+        const fetchChapterInfo = () => {
+            axios.get(`http://localhost:8080/api/chapters/${chapterId}`)
+                .then(response => {
+                    setChapter(response.data);
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.error(' Lỗi rồi:', error);
+                });
         };
 
         fetchChapterInfo();
@@ -34,18 +35,20 @@ function Chapter() {
         setOpenEditModal(true);
     };
 
-    const fetchChapters = async () => {
-        try {
-            const response = await axios.get(`http://localhost:8080/api/chapters/story/${storyId}`);
-            setChapters(response.data);
-        } catch (error) {
-            console.error('Lỗi rồi:', error);
-        }
+    const fetchChapters = () => {
+        axios.get(`http://localhost:8080/api/chapters/story/${storyId}`)
+            .then(response => {
+                setChapters(response.data);
+            })
+            .catch(error => {
+                console.error('Lỗi rồi:', error);
+            });
     };
 
     useEffect(() => {
         fetchChapters();
     }, []);
+
 
     return (
         <div className="vung-doc" id="vungdoc" style={{ backgroundColor: "#fafaf3", color: "#000000", fontSize: 18 }}>

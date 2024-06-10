@@ -17,41 +17,50 @@ function Edit() {
     const [selectedCategories, setSelectedCategories] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/api/stories/chap/${id}`)
-            .then(response => {
-                const hasChapters = response.data > 0;
-                setHasChapter(hasChapters);
-            })
-            .catch(error => {
-                console.error("Looi rùi hi hi:", error);
-            });
+        const checkChapter = () => {
+            axios.get(`http://localhost:8080/api/stories/chap/${id}`)
+                .then(response => {
+                    const hasChapters = response.data > 0;
+                    setHasChapter(hasChapters);
+                })
+                .catch(error => {
+                    console.error("Looi rùi hi hi:", error);
+                });
+        };
+
+        checkChapter();
     }, [id]);
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/api/stories/${id}`)
-            .then(response => {
-                const { title, author, description, categories, image, status } = response.data;
-                setTitle(title);
-                setAuthor(author);
-                setDescription(description);
-                setStatus(status);
-                setFileUrl(`http://localhost:8080/video/${image}`);
-                const categoryIds = categories.map(category => category.categoryId);
-                setSelectedCategories(categoryIds);
-                console.log(response.data)
-            })
-            .catch(error => {
-                console.error('Lỗi truyện:', error);
-            });
+        const fetchStories = () => {
+            axios.get(`http://localhost:8080/api/stories/${id}`)
+                .then(response => {
+                    const { title, author, description, categories, image, status } = response.data;
+                    setTitle(title);
+                    setAuthor(author);
+                    setDescription(description);
+                    setStatus(status);
+                    setFileUrl(`http://localhost:8080/video/${image}`);
+                    const categoryIds = categories.map(category => category.categoryId);
+                    setSelectedCategories(categoryIds);
+                    console.log(response.data)
+                })
+                .catch(error => {
+                    console.error('Lỗi truyện:', error);
+                });
 
-        axios.get('http://localhost:8080/api/categories')
-            .then(response => {
-                setCategories(response.data);
-            })
-            .catch(error => {
-                console.error('Lỗi danh mục:', error);
-            });
+            axios.get('http://localhost:8080/api/categories')
+                .then(response => {
+                    setCategories(response.data);
+                })
+                .catch(error => {
+                    console.error('Lỗi danh mục:', error);
+                });
+        };
+
+        fetchStories();
     }, [id]);
+
 
     const handleChange = (e) => {
         setFile(e.target.files[0]);
@@ -69,17 +78,14 @@ function Edit() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const createStory= {
-            title: title,
-            image: file,
-            description: description,
-            author: author,
-            status: "New",
-
-            categories:selectedCategories.join(',')
-        }
-
-        axios.put(`http://localhost:8080/api/stories/${id}`, createStory, {
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('image', file);
+        formData.append('description', description);
+        formData.append('author', author);
+        formData.append('status', status);
+        formData.append('categories', selectedCategories.join(','));
+        axios.put(`http://localhost:8080/api/stories/${id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -146,12 +152,12 @@ function Edit() {
                                 <h3>Thể loại:</h3>
                                 {categories.map(category => (
                                     <div key={category.categoryId}>
-                                        <input type="checkbox" id={`category-${category.categoryId}`}
+                                        <input type="checkbox" id={category.categoryId}
                                                value={category.categoryId}
                                                checked={selectedCategories.includes(category.categoryId)}
                                                onChange={handleCategoryChange}/>
                                         <label
-                                            htmlFor={`category-${category.categoryId}`}>{category.categoryName}</label>
+                                          >{category.categoryName}</label>
                                     </div>
                                 ))}
 
