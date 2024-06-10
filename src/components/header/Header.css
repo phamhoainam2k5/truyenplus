@@ -97,15 +97,7 @@ header .container {
     outline: 0
 }
 
-.searching button:before {
-    content: '';
-    position: absolute;
-    border-width: 8px 8px 8px 0;
-    border-style: solid solid solid none;
-    border-color: transparent #b43627;
-    top: 12px;
-    left: -6px
-}
+
 
 .searching button:hover:before {
     border-right-color: #e54040
@@ -237,11 +229,11 @@ span.item-name a:first-child:before {
 }
 #htop ul>li.vip:hover{background:unset;}
 
-#htop ul li:hover .dropdown_columns {
-    left: unset;
-    top: 40px;
-    right: 0;
-}
+/*#htop ul li:hover .dropdown_columns {*/
+/*    left: unset;*/
+/*    top: 40px;*/
+/*    right: 0;*/
+/*}*/
 /*end htop*/
 /*menu*/
 
@@ -302,10 +294,10 @@ span.item-name a:first-child:before {
     width: 210px;
 }
 
-#menu li:hover .dropdown_columns {
-    left: 0;
-    top: auto
-}
+/*#menu li:hover .dropdown_columns {*/
+/*    left: 0;*/
+/*    top: auto*/
+/*}*/
 
 .dropdown_columns .col_3 {
     display: inline;
@@ -792,7 +784,7 @@ span.item-name a:first-child:before {
     }
     .header .menu .menu-mobile-header {
         position: relative;
-        position: -webkit-sticky;
+
         position: sticky;
         display: -webkit-box;
         display: -ms-flexbox;
@@ -942,31 +934,3 @@ span.item-name a:first-child:before {
     }
 }
 
-
-
-
-
-._1line,._2line,._3line,._4line,._5line {
-    word-break: break-word;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 1
-}
-
-._2line {
-    -webkit-line-clamp: 2
-}
-
-._3line {
-    -webkit-line-clamp: 3
-}
-
-._4line {
-    -webkit-line-clamp: 4
-}
-
-._5line {
-    -webkit-line-clamp: 5
-}

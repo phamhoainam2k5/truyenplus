@@ -14,7 +14,7 @@ function Footer() {
 
                         <p>Truyện được sưu tầm từ c&aacute;c nguồn diễn đ&agrave;n, blog truyện tr&ecirc;n internet. Mọi
                             vấn đề vi phạm bản quyền vui l&ograve;ng li&ecirc;n hệ qua
-                            email: <b>truyenplusonline@gmail.com</b></p>
+                            email: <b>hieuhuyphantn@gmail.com</b></p>
 
 
                     </div>
@@ -31,14 +31,7 @@ function Footer() {
                         <a href="/danh-sach/truyen-full">Truyện Full</a>
                     </div>
                 </div>
-                <div className="footer-bottom">
-                    <ul>
-                        <li><a href="/gioi-thieu">Giới thiệu</a></li>
-                        <li><a href="/chinh-sach-bao-mat">Chính sách</a></li>
-                        <li><a href="/dieu-khoan-su-dung">Điều khoản</a></li>
-                        <li><a href="/lien-he">Liên hệ</a></li>
-                    </ul>
-                </div>
+
             </div>
 
         </footer>

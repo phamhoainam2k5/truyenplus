@@ -104,7 +104,7 @@ body {
   line-height: 1.7;
   word-wrap: break-word;
   color: #3E3E3E;
-
+  overflow-x: hidden
 }
 ol,
 ul {
@@ -197,6 +197,6 @@ a:hover{
 .app__lists {
   display: flex;
   justify-content: center;
-
+  margin-left: 120px;
 
 }
