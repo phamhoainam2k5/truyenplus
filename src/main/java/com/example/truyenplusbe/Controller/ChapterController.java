@@ -50,7 +50,7 @@ public class ChapterController {
 
 
 
-        return new ResponseEntity<>("Chap deleted successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Xoá thannh công", HttpStatus.OK);
     }
 
     @PostMapping("/{storyId}")

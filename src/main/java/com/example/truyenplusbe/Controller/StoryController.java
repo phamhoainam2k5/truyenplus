@@ -55,15 +55,11 @@ private IStoryRepository iStoryRepository;
     @PutMapping("/{storyId}")
     public ResponseEntity<Story> updateStory(
             @PathVariable Long storyId,
-            @ModelAttribute StoryDTO storyDTO) {
-        try {
+            @ModelAttribute StoryDTO storyDTO) throws IOException {
+
             Story updatedStory = storyService.updateStory(storyId, storyDTO);
             return ResponseEntity.ok(updatedStory);
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+
     }
 
     @DeleteMapping("/{id}")
