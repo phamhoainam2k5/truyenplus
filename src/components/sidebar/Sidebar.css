@@ -185,8 +185,7 @@
         flex-direction: column;
     }
 }
-/*--------------video_items------------*/
-@media screen and (min-width:768px) {
+
 
 
 
@@ -194,8 +193,8 @@
         padding-top: 20px;
         padding-left: 0;
         margin-bottom: 20px;
+        flex-direction: column;
+        display: flex;
     }
 
-
-}
 

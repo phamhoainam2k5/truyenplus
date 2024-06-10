@@ -9,6 +9,9 @@ import Sidebar from "./components/sidebar/Sidebar";
 import List from "./components/list/List";
 import Create from "./components/create/Create";
 import Edit from "./components/edit/Edit";
+import ListChap from "./components/list/ListChap";
+import CreateChap from "./components/create/CreateChap";
+import EditChap from "./components/edit/EditChap";
 
 function App() {
 
@@ -29,7 +32,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/story"
+                        path="/story/:storyId"
                         element={
                             <>
                                 <Header/>
@@ -39,7 +42,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/chapter"
+                        path="/chapter/:storyId/:chapterId"
                         element={
                             <>
                                 <Header/>
@@ -79,7 +82,7 @@ function App() {
                         </>
                     }
                 /><Route
-                    path="/edit"
+                    path="/edit/:id"
                     element={
                         <>
                             <Header/>
@@ -93,7 +96,53 @@ function App() {
                             <Footer/>
                         </>
                     }
+                /><Route
+                    path="/chapters/:storyId"
+                    element={
+                        <>
+                            <Header/>
+                            <div className="app__story">
+                                <Sidebar/>
+                                <div className="app__lists">
+                                    <ListChap/>
+                                </div>
+
+                            </div>
+                            <Footer/>
+                        </>
+                    }
                 />
+                    <Route
+                        path="/create/:storyId"
+                        element={
+                            <>
+                                <Header/>
+                                <div className="app__story">
+                                    <Sidebar/>
+                                    <div className="app__lists">
+                                        <CreateChap/>
+                                    </div>
+
+                                </div>
+                                <Footer/>
+                            </>
+                        }
+                    /><Route
+                        path="/editChapter/:storyId/:chapterId"
+                        element={
+                            <>
+                                <Header/>
+                                <div className="app__story">
+                                    <Sidebar/>
+                                    <div className="app__lists">
+                                        <EditChap/>
+                                    </div>
+
+                                </div>
+                                <Footer/>
+                            </>
+                        }
+                    />
                 </Routes>
             </Router>
         </div>

@@ -1,5 +1,18 @@
 import "./Header.css"
+import {useEffect, useState} from "react";
+import axios from "axios";
 function Header() {
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://localhost:8080/api/categories')
+            .then(response => {
+                setCategories(response.data);
+            })
+            .catch(error => {
+                console.error('Lôi không lấy được list danh mục:', error);
+            });
+    }, []);
     return (
         <header className="header">
             <div className="container container-header">
@@ -63,7 +76,7 @@ function Header() {
                             </div>
                             <ul className="menu-section">
                                 <li className="menu-item-has-children">
-                                    <a href="javascript:;" className="dropdown">
+                                    <a href=" " className="dropdown">
                                         DANH MỤC <i className="fa fa-angle-down"/>
                                     </a>
                                     <ul className="menu-subs menu-mega menu-column-3">
@@ -189,100 +202,15 @@ function Header() {
                                     </ul>
                                 </li>
                                 <li className="menu-item-has-children">
-                                    <a href="javascript:;" className="dropdown">
+                                    <a href="" className="dropdown">
                                         THỂ LOẠI <i className="fa fa-angle-down"/>
                                     </a>
                                     <ul className="menu-subs menu-mega menu-column-3">
+                                        {categories.map((category) => (
                                         <li className="menu-item">
-                                            <a href="/the-loai/tien-hiep">Tiên Hiệp</a>
+                                            <a href="/the-loai/tien-hiep">{category.categoryName}</a>
                                         </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/kiem-hiep">Kiếm Hiệp</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/ngon-tinh">Ngôn Tình</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/do-thi">Đô Thị</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/sung">Sủng</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/quan-truong">Quan Trường</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/vong-du">Võng Du</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/khoa-huyen">Khoa Huyễn</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/huyen-huyen">Huyền Huyễn</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/di-gioi">Dị Giới</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/di-gioi">Dị Giới</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/di-nang">Dị Năng</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/quan-su">Quân Sự</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/lich-su">Lịch Sử</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/xuyen-khong">Xuyên Không</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/cung-dau">Cung Đấu</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/nu-cuong">Nữ Cường</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/gia-dau">Gia Đấu</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/dong-phuong">Đông Phương</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/dam-my">Đam Mỹ</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/dam-my">Đam Mỹ</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/bach-hop">Bách Hợp</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/mat-the">Mạt Thế</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/truyen-teen">Truyện Teen</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/nu-phu">Nữ Phụ</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/doan-van">Đoản Văn</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/sac">Sắc</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/nguoc">Ngược</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/trong-sinh">Trọng Sinh</a>
-                                        </li>
-                                        <li className="menu-item">
-                                            <a href="/the-loai/khac">Khác</a>
-                                        </li>
+                                        ))}
                                     </ul>
                                 </li>
                                 <li className="menu-item-has-children">
@@ -293,16 +221,16 @@ function Header() {
                                 </li>
                                 <li className="menu-item-has-children">
                                     <a href="/list">
-                                        NHIỆM VỤ <span className="label-menu">Free</span>
+                                        NHIỆM VỤ
                                     </a>
                                 </li>
                                 <li className="menu-item-has-children">
-                                    <a href="javascript:;" className="dropdown">
+                                    <a href="" className="dropdown">
                                         TÀI KHOẢN <i className="fa fa-angle-down"/>
                                     </a>
                                     <ul className="menu-subs menu-column-1">
                                         <li className="menu-item">
-                                            <a href="/account/register">Đăng ký</a>
+                                            <a href="/list">Quản lý hệ thống</a>
                                         </li>
                                         <li className="menu-item">
                                             <a href="/account/login">Đăng nhập</a>

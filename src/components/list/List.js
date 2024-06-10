@@ -1,18 +1,16 @@
-import "./List.css"
-import {Add} from "@mui/icons-material";
-import {Link, useLocation} from 'react-router-dom';
-import { Pagination, PaginationItem, Stack} from "@mui/material";
-import {useEffect, useState} from "react";
-import axios from 'axios';
+import "./List.css";
+import { Add } from "@mui/icons-material";
+import { Link } from "react-router-dom";
+import { Pagination, Tooltip } from "@mui/material";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 function List() {
     const [stories, setStories] = useState([]);
-    const location = useLocation();
 
-    useEffect(() => {
-        if (location.state && location.state.message) {
-            alert(location.state.message); // Hiển thị thông báo thành công
-        }
-    }, [location.state]);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const [storiesPerPage] = useState(3);
 
     useEffect(() => {
         fetchStories();
@@ -20,42 +18,50 @@ function List() {
 
     const fetchStories = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/stories');
+            const response = await axios.get("http://localhost:8080/api/stories");
             setStories(response.data);
         } catch (error) {
-            console.error('Error fetching stories:', error);
+            console.error("Lấy ra danh sách truyện:", error);
         }
     };
 
     const deleteStory = async (storyId) => {
-        if (window.confirm('Are you sure you want to delete this story?')) {
+        if (window.confirm("Bạn có muốn xoá truyện không?")) {
             try {
                 await axios.delete(`http://localhost:8080/api/stories/${storyId}`);
-                alert('Story deleted successfully!');
-                // Gọi lại hàm fetchStories để cập nhật danh sách
+                alert("Xoá truyện thành công hi hi!");
                 fetchStories();
             } catch (error) {
-                console.error('Error deleting story:', error);
-                alert('Failed to delete the story.');
+                console.error("Lỗi xoá truyện k đc", error);
+                alert("Lỗi rùi hi hi.");
             }
         }
     };
+
+    const indexOfLastStory = currentPage * storiesPerPage;
+    const indexOfFirstStory = indexOfLastStory - storiesPerPage;
+
+    const currentStories = stories.slice(indexOfFirstStory, indexOfLastStory);
+
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value);
+    };
+
     return (
         <main className="single_pages">
-            <section className="video_items flex">
-                <div className="lefts">
-                    <div className="left_content">
-                        <div className="item add-product"style={{width:"30%"}}>
-                            <Link to="/create">
-                                <div>
-                                    <Add className="material-icons-sharp">add</Add>
-                                    <p>Add Video</p>
-                                </div>
-                            </Link>
-                        </div>
+            <div className="lefts">
+                <div className="left_content">
+                    <div className="item add-product" style={{width: "30%"}}>
+                        <Link to="/create">
+                            <div>
+                                <Add className="material-icons-sharp"/>
+                                <p>Thêm truyện</p>
+                            </div>
+                        </Link>
+                    </div>
 
+                    <div className="content-wrapper">
                         <div className="recent-orders">
-
                             <table>
                                 <thead>
                                 <tr>
@@ -63,52 +69,67 @@ function List() {
                                     <th>Tên truyện</th>
                                     <th>Tác giả</th>
                                     <th>Trạng thái</th>
+                                    <th>Tổng số chương</th>
                                     <th style={{display: "flex", justifyContent: "center"}}>
                                         Action
                                     </th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {stories.map((story, index) => (
-                                    <tr key={story.postId}>
+                                {currentStories.map((story, index) => (
+                                    <tr key={story.storyId}>
                                         <td>{index + 1}</td>
                                         <td>{story.title}</td>
                                         <td>{story.author}</td>
                                         <td>{story.status}</td>
+                                        <td>{story.totalChapters}</td>
                                         <td style={{display: "flex"}}>
-                                            <a href="">
-                                                <i className="fa-solid fa-pen-to-square"/>
+                                            <Tooltip title="Sửa truyện">
+                                                <Link to={`/edit/${story.storyId}`}>
+                                                    <i className="fa-solid fa-pen-to-square"/>
+                                                </Link>
+                                            </Tooltip>
+                                            <a
+                                                href="#"
+                                                onClick={() => deleteStory(story.storyId)}
+                                            >
+                                                <Tooltip title="Xoá truyện">
+                                                    <i className="fa-solid fa-x"/>
+                                                </Tooltip>
                                             </a>
-                                            <a href="#" onClick={() => deleteStory(story.storyId)}>
-                                                <i className="fa-solid fa-x"/>
-                                            </a>
-                                            <a href="">
-                                                <i className="fa-solid fa-download"/>
-                                            </a>
-                                            <a href="">
-                                                <i className="fa-solid fa-eye"/>
-                                            </a>
+                                            <Tooltip title="Xem chương">
+                                                <Link to={`/chapters/${story.storyId}`}>
+                                                    <i className="fa-solid fa-list"></i>
+                                                </Link>
+                                            </Tooltip>
+
+                                                <Tooltip title="Xem truyện">
+                                                    <Link to={`/story/${story.storyId}`}>
+                                                    <i className="fa-solid fa-eye"/>
+                                                </Link>
+                                                </Tooltip>
+
                                         </td>
                                     </tr>
                                 ))}
                                 </tbody>
                             </table>
                         </div>
-                        <div class="pagination">
-                            <Pagination
-                                count={10}
-
-                            />
-                        </div>
-
-
 
                     </div>
                 </div>
-            </section>
+            </div>
+            <div className="pagination">
+                <Pagination
+                    // hiển thị số lượng trang tính bằng cách lấy tổng lượng truyện trong mảng chia cho tổng lượng truyện hiển thị ở mỗi trang
+                    count={Math.ceil(stories.length / storiesPerPage)}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                />
+            </div>
         </main>
 
-    )
+    );
 }
 
 export default List;
