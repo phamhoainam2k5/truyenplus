@@ -8,52 +8,42 @@ import {Link} from "react-router-dom";
 function Home() {
     const [stories, setStories] = useState([]);
     const [storiesStatus, setStoriesStatus] = useState([]);
-// Lấy ra hết các truyện theo trạng thái là FULL
-    useEffect(() => {
-        const fetchStoriesStatus = async () => {
-            try {
-                const response = await axios.get('http://localhost:8080/api/stories/status');
-                setStoriesStatus(response.data);
-                console.log(response.data);
-            } catch (error) {
-                console.error('Lỗi khi lấy ra các truyện full :', error);
-            }
-        };
-        fetchStoriesStatus();
-    }, []);
-    // Lấy ra các truyện theo điều kiện từ mới đến cũ
-    useEffect(() => {
-        const fetchStories = async () => {
-            try {
-                const response = await axios.get('http://localhost:8080/api/stories'); // Replace with your actual API endpoint
-                setStories(response.data);
-            } catch (error) {
-                console.error('Lỗi hi hi:', error);
-            }
-        };
-
-        fetchStories();
-    }, []);
-    // lưu trữ trạng thái của nội dung có được mở rôộng hay k
     const [isExpanded, setIsExpanded] = useState(false);
+
+    useEffect(() => {
+        axios.get('http://localhost:8080/api/stories/status')
+            .then(response => {
+                setStoriesStatus(response.data);
+            })
+            .catch(error => {
+                console.error('Lỗi khi lấy ra các truyện full:', error);
+            });
+    }, []);
+
+    useEffect(() => {
+        axios.get('http://localhost:8080/api/stories')
+            .then(response => {
+                setStories(response.data);
+            })
+            .catch(error => {
+                console.error('Lỗi khi lấy ra các truyện:', error);
+            });
+    }, []);
+
+    const handleExpand = (e) => {
+        e.preventDefault();
+        setIsExpanded(true);
+    };
 
     const settings = {
         infinite: true,
-
         slidesToShow: 6,
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 1000,
         pauseOnHover: true,
-
         swipe: true,
-
         swipeToSlide: true
-    };
-// bấm vào xem thêm là sẽ đặt lại giá trị thành true
-    const handleExpand = (e) => {
-        e.preventDefault();
-        setIsExpanded(true);
     };
     return (
         <main>

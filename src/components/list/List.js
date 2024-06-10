@@ -7,46 +7,44 @@ import axios from "axios";
 
 function List() {
     const [stories, setStories] = useState([]);
-
     const [currentPage, setCurrentPage] = useState(1);
-
     const [storiesPerPage] = useState(3);
 
     useEffect(() => {
         fetchStories();
     }, []);
 
-    const fetchStories = async () => {
-        try {
-            const response = await axios.get("http://localhost:8080/api/stories");
-            setStories(response.data);
-        } catch (error) {
-            console.error("Lấy ra danh sách truyện:", error);
-        }
+    const fetchStories = () => {
+        axios.get("http://localhost:8080/api/stories")
+            .then(response => {
+                setStories(response.data);
+            })
+            .catch(error => {
+                console.error("Lấy ra danh sách truyện:", error);
+            });
     };
 
-    const deleteStory = async (storyId) => {
+    const deleteStory = (storyId) => {
         if (window.confirm("Bạn có muốn xoá truyện không?")) {
-            try {
-                await axios.delete(`http://localhost:8080/api/stories/${storyId}`);
-                alert("Xoá truyện thành công hi hi!");
-                fetchStories();
-            } catch (error) {
-                console.error("Lỗi xoá truyện k đc", error);
-                alert("Lỗi rùi hi hi.");
-            }
+            axios.delete(`http://localhost:8080/api/stories/${storyId}`)
+                .then(() => {
+                    alert("Xoá truyện thành công hi hi!");
+                    fetchStories();
+                })
+                .catch(error => {
+                    console.error("Lỗi xoá truyện k đc", error);
+                    alert("Lỗi rùi hi hi.");
+                });
         }
     };
 
     const indexOfLastStory = currentPage * storiesPerPage;
     const indexOfFirstStory = indexOfLastStory - storiesPerPage;
-
     const currentStories = stories.slice(indexOfFirstStory, indexOfLastStory);
 
     const handlePageChange = (event, value) => {
         setCurrentPage(value);
     };
-
     return (
         <main className="single_pages">
             <div className="lefts">

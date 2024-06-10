@@ -31,28 +31,31 @@ function Create() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/categories')
-            .then(response => {
-                setCategories(response.data);
-            })
-            .catch(error => {
-                console.error('Lỗi rồi:', error);
-            });
+        const fetchCategories = () => {
+            axios.get('http://localhost:8080/api/categories')
+                .then(response => {
+                    setCategories(response.data);
+                })
+                .catch(error => {
+                    console.error('Lỗi rồi:', error);
+                });
+        };
+
+        fetchCategories();
     }, []);
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const createStory= {
-            title: title,
-            image: file,
-            description: description,
-            author: author,
-            status: "New",
-
-            categories:selectedCategories.join(',')
-        }
-        axios.post("http://localhost:8080/api/stories", createStory, {
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('image', file);
+        formData.append('description', description);
+        formData.append('author', author);
+        formData.append('status', "New");
+        formData.append('categories', selectedCategories.join(','));
+        axios.post("http://localhost:8080/api/stories", formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -143,13 +146,13 @@ function Create() {
                                     <div key={category.categoryId}>
                                         <input
                                             type="checkbox"
-                                            id={`category-${category.categoryId}`}
+                                            id={category.categoryId}
                                             value={category.categoryId}
                                             checked={selectedCategories.includes(category.categoryId)}
                                             onChange={handleCategoryChange}
                                         />
                                         <label
-                                            htmlFor={`category-${category.categoryId}`}>{category.categoryName}</label>
+                                           >{category.categoryName}</label>
                                     </div>
                                 ))}
                                 <br/><br/>

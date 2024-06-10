@@ -3,32 +3,37 @@ import axios from "axios";
 import {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
 function Story() {
+
+
     const { storyId } = useParams();
     const [chapters, setChapters] = useState([]);
     const [story, setStory] = useState(null);
 
     useEffect(() => {
-        const fetchStoryInfo = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/api/stories/${storyId}`);
-                setStory(response.data);
-
-            } catch (error) {
-                console.error('Lỗi rồi:', error);
-            }
+        const fetchStoryInfo = () => {
+            axios.get(`http://localhost:8080/api/stories/${storyId}`)
+                .then(response => {
+                    setStory(response.data);
+                })
+                .catch(error => {
+                    console.error('Lỗi ruùi nha:', error);
+                });
         };
 
         fetchStoryInfo();
     }, []);
-    const fetchChapters = async () => {
-        try {
-            const response = await axios.get(`http://localhost:8080/api/chapters/story/${storyId}`);
-            setChapters(response.data);
-        } catch (error) {
-            console.error('Lỗi truyện rồi:', error);
-        }
-    };
+
     useEffect(() => {
+        const fetchChapters = () => {
+            axios.get(`http://localhost:8080/api/chapters/story/${storyId}`)
+                .then(response => {
+                    setChapters(response.data);
+                })
+                .catch(error => {
+                    console.error('Lỗi rồi hu hu :', error);
+                });
+        };
+
         fetchChapters();
     }, []);
 
@@ -72,7 +77,22 @@ function Story() {
 
                                     <li>Cập nhật cuối: 6/10/2024</li>
 
-
+                                    <li>
+                                        <div
+                                            className="fb-like"
+                                            data-href="https://truyenplus.vn/bo-cong-anh-no-muon"
+                                            data-layout="button_count"
+                                            data-action="like"
+                                            data-size="small"
+                                            data-show-faces="false"
+                                            data-share="true"
+                                        />
+                                        <div
+                                            className="fb-save"
+                                            data-uri="https://truyenplus.vn/bo-cong-anh-no-muon"
+                                            data-size="small"
+                                        />
+                                    </li>
                                 </ul>
                             </div>
 
@@ -113,7 +133,15 @@ function Story() {
                                     Loading…
                                 </div>
                             </div>
-
+                            <div className="comment-info">
+                                <div
+                                    notify="true"
+                                    className="fb-comments"
+                                    data-href="https://truyenplus.vn/bo-cong-anh-no-muon"
+                                    data-width="100%"
+                                    data-numposts={10}
+                                ></div>
+                            </div>
                         </div>
                     </div>
                 </div>
