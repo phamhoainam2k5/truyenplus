@@ -1,4 +1,4 @@
-package com.example.truyenplusbe.config;
+package com.example.truyenplusbe.Config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
