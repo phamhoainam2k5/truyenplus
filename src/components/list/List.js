@@ -1,9 +1,10 @@
 import "./List.css";
 import { Add } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import { Pagination, Tooltip } from "@mui/material";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
+import {Pagination, Tooltip} from "@mui/material";
 
 function List() {
     const [stories, setStories] = useState([]);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { Add } from "@mui/icons-material";
@@ -80,11 +80,13 @@ function Edit() {
         e.preventDefault();
         const formData = new FormData();
         formData.append('title', title);
-        formData.append('image', file);
         formData.append('description', description);
         formData.append('author', author);
         formData.append('status', status);
         formData.append('categories', selectedCategories.join(','));
+        if(file){
+            formData.append('image',file)
+        }
         axios.put(`http://localhost:8080/api/stories/${id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
