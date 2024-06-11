@@ -29,7 +29,7 @@ function Edit() {
         };
 
         checkChapter();
-    }, [id]);
+    }, []);
 
     useEffect(() => {
         const fetchStories = () => {
@@ -59,7 +59,7 @@ function Edit() {
         };
 
         fetchStories();
-    }, [id]);
+    }, []);
 
 
     const handleChange = (e) => {

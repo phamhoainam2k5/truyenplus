@@ -22,7 +22,7 @@ function EditChap() {
             .catch(error => {
                 console.error("Lỗi rùi hu hu:", error);
             });
-    }, [chapterId]);
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();

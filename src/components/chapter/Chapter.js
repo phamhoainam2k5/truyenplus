@@ -25,7 +25,7 @@ function Chapter() {
         };
 
         fetchChapterInfo();
-    }, [chapterId, storyId]);
+    }, []);
 
     const handleCloseEditModal = () => {
         setOpenEditModal(false);
@@ -49,7 +49,9 @@ function Chapter() {
         fetchChapters();
     }, []);
 
-
+if(!chapter){
+    return (<p>Load</p>)
+}
     return (
         <div className="vung-doc" id="vungdoc" style={{ backgroundColor: "#fafaf3", color: "#000000", fontSize: 18 }}>
             <div className="chapter_wrap">
@@ -60,14 +62,14 @@ function Chapter() {
                 </div>
                 <div>
                     <h1 className="current-book">
-                        <a href="/de-ba">{chapter && chapter.story.title}</a>{" "}
-                        <span className="current-chapter">Chương {chapter && chapter.chapterNumber}: {chapter && chapter.title}</span>
+                        <a href="/de-ba">{chapter.story.title}</a>{" "}
+                        <span className="current-chapter">Chương {chapter.chapterNumber}: {chapter.title}</span>
                     </h1>
                 </div>
                 <div className="clearfix" />
             </div>
             <div className="truyen">
-                {chapter && chapter.content}
+                {chapter.content}
             </div>
             <div className="chapter_wrap">
                 <div className="clearfix" />
