@@ -8,7 +8,7 @@ function Edit() {
     const navigate = useNavigate();
     const [hasChapter, setHasChapter] = useState(false);
     const [status, setStatus] = useState("New");
-    const [file, setFile] = useState(null);
+    const [file, setFile] = useState("");
     const [fileUrl, setFileUrl] = useState("");
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
@@ -43,7 +43,7 @@ function Edit() {
                     setFileUrl(`http://localhost:8080/video/${image}`);
                     const categoryIds = categories.map(category => category.categoryId);
                     setSelectedCategories(categoryIds);
-                    console.log(response.data)
+
                 })
                 .catch(error => {
                     console.error('Lỗi truyện:', error);
@@ -68,26 +68,28 @@ function Edit() {
     };
 
     const handleCategoryChange = (e) => {
-        const categoryId = parseInt(e.target.value, 10);
+        const categoryId = (e.target.value);
+console.log('selectedCategories',selectedCategories);
         if (e.target.checked) {
             setSelectedCategories([...selectedCategories, categoryId]);
         } else {
             setSelectedCategories(selectedCategories.filter(id => id !== categoryId));
         }
+        console.log(selectedCategories.includes(categoryId))
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append('title', title);
-        formData.append('description', description);
-        formData.append('author', author);
-        formData.append('status', status);
-        formData.append('categories', selectedCategories.join(','));
-        if(file){
-            formData.append('image',file)
+        const data={
+            title: title,
+            image: file,
+            description: description,
+            author: author,
+            status: status,
+            categories: selectedCategories
         }
-        axios.put(`http://localhost:8080/api/stories/${id}`, formData, {
+
+        axios.put(`http://localhost:8080/api/stories/${id}`, data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -157,6 +159,7 @@ function Edit() {
                                         <input type="checkbox" id={category.categoryId}
                                                value={category.categoryId}
                                                checked={selectedCategories.includes(category.categoryId)}
+
                                                onChange={handleCategoryChange}/>
                                         <label
                                           >{category.categoryName}</label>

@@ -7,7 +7,7 @@ function Story() {
 
     const { storyId } = useParams();
     const [chapters, setChapters] = useState([]);
-    const [story, setStory] = useState();
+    const [story, setStory] = useState("");
 
     useEffect(() => {
         const fetchStoryInfo = () => {

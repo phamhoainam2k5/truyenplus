@@ -5,7 +5,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {Add} from "@mui/icons-material";
 
 function Create() {
-    const [file, setFile] = useState(null);
+    const [file, setFile] = useState("");
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
     const [description, setDescription] = useState("");
@@ -26,6 +26,7 @@ function Create() {
         } else {
             setSelectedCategories(selectedCategories.filter(id => id !== categoryId));
         }
+
     }
 
     const navigate = useNavigate();
@@ -47,15 +48,16 @@ function Create() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+const data={
+    title: title,
+    image: file,
+    description: description,
+   author: author,
+   status: "New",
+   categories: selectedCategories
+}
 
-        const formData = new FormData();
-        formData.append('title', title);
-        formData.append('image', file);
-        formData.append('description', description);
-        formData.append('author', author);
-        formData.append('status', "New");
-        formData.append('categories', selectedCategories.join(','));
-        axios.post("http://localhost:8080/api/stories", formData, {
+        axios.post("http://localhost:8080/api/stories", data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
