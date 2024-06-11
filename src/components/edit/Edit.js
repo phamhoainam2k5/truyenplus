@@ -43,7 +43,6 @@ function Edit() {
                     setFileUrl(`http://localhost:8080/video/${image}`);
                     const categoryIds = categories.map(category => category.categoryId);
                     setSelectedCategories(categoryIds);
-
                 })
                 .catch(error => {
                     console.error('Lỗi truyện:', error);
@@ -68,28 +67,29 @@ function Edit() {
     };
 
     const handleCategoryChange = (e) => {
-        const categoryId = (e.target.value);
-console.log('selectedCategories',selectedCategories);
+        const categoryId = parseInt(e.target.value);
+
         if (e.target.checked) {
             setSelectedCategories([...selectedCategories, categoryId]);
         } else {
             setSelectedCategories(selectedCategories.filter(id => id !== categoryId));
         }
-        console.log(selectedCategories.includes(categoryId))
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const data={
-            title: title,
-            image: file,
-            description: description,
-            author: author,
-            status: status,
-            categories: selectedCategories
-        }
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('description', description);
+        formData.append('author', author);
+        formData.append('status', status);
+        formData.append('categories', selectedCategories.join(','));
+console.log(formData);
+        if(file){
+            formData.append('image',file)
 
-        axios.put(`http://localhost:8080/api/stories/${id}`, data, {
+        }
+        axios.put(`http://localhost:8080/api/stories/${id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -159,7 +159,6 @@ console.log('selectedCategories',selectedCategories);
                                         <input type="checkbox" id={category.categoryId}
                                                value={category.categoryId}
                                                checked={selectedCategories.includes(category.categoryId)}
-
                                                onChange={handleCategoryChange}/>
                                         <label
                                           >{category.categoryName}</label>
