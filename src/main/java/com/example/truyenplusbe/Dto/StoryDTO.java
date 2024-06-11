@@ -18,16 +18,11 @@ public class StoryDTO {
 
     private MultipartFile image;
 
-
     private String description;
-
 
     private String author;
 
-
-
     private String status ;
-
 
     private Set<Category> categories = new HashSet<>();
 

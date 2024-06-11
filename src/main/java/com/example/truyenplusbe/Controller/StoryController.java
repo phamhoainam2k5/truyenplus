@@ -17,26 +17,25 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/api/stories")
-@CrossOrigin("*")
+@RestController @RequestMapping("/api/stories") @CrossOrigin("*")
 public class StoryController {
+
     @Autowired
     private StoryService storyService;
-@Autowired
-private IStoryRepository iStoryRepository;
+    @Autowired
+    private IStoryRepository iStoryRepository;
 
     @GetMapping("")
     public ResponseEntity<Iterable<Story>> getAllStories() {
         Iterable<Story> stories = iStoryRepository.findByCreatedAtOrderBy();
         return new ResponseEntity<>(stories, HttpStatus.OK);
     }
+
     @GetMapping("/status")
     public ResponseEntity<Iterable<Story>> getStories() {
         Iterable<Story> stories = iStoryRepository.findByStatus();
         return new ResponseEntity<>(stories, HttpStatus.OK);
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<Story> getStoryById(@PathVariable Long id) {
@@ -44,7 +43,6 @@ private IStoryRepository iStoryRepository;
         return new ResponseEntity<>(story.get(), HttpStatus.OK);
 
     }
-
 
     @PostMapping("")
     public ResponseEntity<Story> createStory(@ModelAttribute StoryDTO storyDTO) throws IOException {
@@ -54,12 +52,11 @@ private IStoryRepository iStoryRepository;
 
     @PutMapping("/{storyId}")
     public ResponseEntity<Story> updateStory(
-            @PathVariable Long storyId,
-            @ModelAttribute StoryDTO storyDTO) throws IOException {
+        @PathVariable Long storyId,
+        @ModelAttribute StoryDTO storyDTO) throws IOException {
 
-            Story updatedStory = storyService.updateStory(storyId, storyDTO);
-            return ResponseEntity.ok(updatedStory);
-
+        Story updatedStory = storyService.updateStory(storyId, storyDTO);
+        return ResponseEntity.ok(updatedStory);
     }
 
     @DeleteMapping("/{id}")
@@ -72,6 +69,7 @@ private IStoryRepository iStoryRepository;
         storyService.remove(id);
         return new ResponseEntity<>( HttpStatus.OK);
     }
+
     @GetMapping("/chap/{storyId}")
     public ResponseEntity<Integer> hasChapter(@PathVariable Long storyId) {
         int hasChapters = iStoryRepository.countStoriesWithChapters(storyId);

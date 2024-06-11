@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/api/categories")
-@CrossOrigin("*")
+@RestController @RequestMapping("/api/categories") @CrossOrigin("*")
 public class CategoryController {
 
     @Autowired
@@ -26,7 +24,6 @@ public class CategoryController {
 
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
         Optional<Category> category = categoryService.findById(id);
@@ -34,13 +31,11 @@ public class CategoryController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-
     @PostMapping("")
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
         Category createdCategory = categoryService.save(category);
         return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
     }
-
 
     @PutMapping("/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category category) {

@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/api/chapters")
-@CrossOrigin("*")
+@RestController @RequestMapping("/api/chapters") @CrossOrigin("*")
 public class ChapterController {
     @Autowired
     private ChapTerService chapTerService;
@@ -44,11 +42,7 @@ public class ChapterController {
 
         iStoryRepository.save(story);
         System.out.println(story);
-
         chapTerService.remove(id);
-
-
-
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

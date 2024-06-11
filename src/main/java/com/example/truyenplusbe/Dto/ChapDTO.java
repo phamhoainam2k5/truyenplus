@@ -12,12 +12,9 @@ public class ChapDTO {
 
     private Story story;
 
-
     private String title;
 
-
     private String content;
-
 
     private Integer chapterNumber;
 
