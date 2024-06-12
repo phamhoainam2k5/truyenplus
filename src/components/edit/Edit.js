@@ -1,7 +1,8 @@
-import  { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { Add } from "@mui/icons-material";
+import {Alert, Modal, Stack} from "@mui/material";
 
 function Edit() {
     const { id } = useParams();
@@ -15,7 +16,9 @@ function Edit() {
     const [description, setDescription] = useState("");
     const [categories, setCategories] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
+    const[open,setOpen]=useState(false);
 
+    const handleClose = () => setOpen(false);
     useEffect(() => {
         const checkChapter = () => {
             axios.get(`http://localhost:8080/api/stories/chap/${id}`)
@@ -41,6 +44,7 @@ function Edit() {
                     setDescription(description);
                     setStatus(status);
                     setFileUrl(`http://localhost:8080/video/${image}`);
+                    setFile(file);
                     const categoryIds = categories.map(category => category.categoryId);
                     setSelectedCategories(categoryIds);
                 })
@@ -51,6 +55,7 @@ function Edit() {
             axios.get('http://localhost:8080/api/categories')
                 .then(response => {
                     setCategories(response.data);
+                    console.log(typeof response.data[0].categoryId)
                 })
                 .catch(error => {
                     console.error('Lỗi danh mục:', error);
@@ -66,14 +71,17 @@ function Edit() {
         setFileUrl(URL.createObjectURL(e.target.files[0]));
     };
 
-    const handleCategoryChange = (e) => {
-        const categoryId = parseInt(e.target.value);
+    const handleCategoryChange = (categoryId) => {
 
-        if (e.target.checked) {
+console.log(categoryId);
+        console.log(selectedCategories);
+        if (!selectedCategories.includes(categoryId)) {
             setSelectedCategories([...selectedCategories, categoryId]);
         } else {
-            setSelectedCategories(selectedCategories.filter(id => id !== categoryId));
+            const dataCategories=selectedCategories.filter(id => id !== categoryId)
+            setSelectedCategories(dataCategories);
         }
+
     };
 
     const handleSubmit = (e) => {
@@ -83,19 +91,20 @@ function Edit() {
         formData.append('description', description);
         formData.append('author', author);
         formData.append('status', status);
-        formData.append('categories', selectedCategories.join(','));
+        formData.append('categories', selectedCategories);
 console.log(formData);
         if(file){
             formData.append('image',file)
 
         }
+
         axios.put(`http://localhost:8080/api/stories/${id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         })
             .then(response => {
-                alert("Cập nhật thành công!");
+              setOpen(true)
                 navigate("/list");
             })
             .catch(error => {
@@ -157,11 +166,10 @@ console.log(formData);
                                 {categories.map(category => (
                                     <div key={category.categoryId}>
                                         <input type="checkbox" id={category.categoryId}
-                                               value={category.categoryId}
-                                               checked={selectedCategories.includes(category.categoryId)}
-                                               onChange={handleCategoryChange}/>
-                                        <label
-                                          >{category.categoryName}</label>
+
+                                               defaultChecked={selectedCategories.includes(category.categoryId)}
+                                               onChange={()=>{handleCategoryChange(category.categoryId)}}/>
+                                        <label htmlFor={category.categoryId}>{category.categoryName}</label>
                                     </div>
                                 ))}
 
@@ -190,6 +198,19 @@ console.log(formData);
                         </div>
                     </div>
                 </section>
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+
+                >
+                    <Stack sx={{ width: '100%' }} spacing={2}>
+                        <Alert variant="filled" severity="success">
+                            This is a filled success Alert.
+                        </Alert>
+
+                    </Stack>
+
+                </Modal>
             </main>
         </>
     );

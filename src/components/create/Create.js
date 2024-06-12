@@ -3,8 +3,10 @@ import axios from "axios";
 import "./../list/List.css"
 import {Link, useNavigate} from "react-router-dom";
 import {Add} from "@mui/icons-material";
+import {Alert, Modal, Stack} from "@mui/material";
 
 function Create() {
+
     const [file, setFile] = useState("");
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
@@ -12,23 +14,35 @@ function Create() {
     const [categories, setCategories] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [filePreview, setFilePreview] = useState("");
+    const [open, setOpen] = useState(false);
 
+    const handleClose = () => setOpen(false);
     const handleChange = (e) => {
+
         const selectedFile = e.target.files[0];
+        if (!selectedFile.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+            alert("Không phải ảnh đề nghị chọn lại");
+            setFilePreview("");
+            setFile("");
+        }
         setFile(selectedFile);
         setFilePreview(URL.createObjectURL(selectedFile));
+
     }
 
-    const handleCategoryChange = (e) => {
-        const categoryId = parseInt(e.target.value, 10);
-        if (e.target.checked) {
+
+    const handleCategoryChange = (categoryId) => {
+
+        console.log(categoryId);
+        console.log(selectedCategories);
+        if (!selectedCategories.includes(categoryId)) {
             setSelectedCategories([...selectedCategories, categoryId]);
         } else {
-            setSelectedCategories(selectedCategories.filter(id => id !== categoryId));
+            const dataCategories=selectedCategories.filter(id => id !== categoryId)
+            setSelectedCategories(dataCategories);
         }
 
-    }
-
+    };
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -48,25 +62,47 @@ function Create() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-const data={
-    title: title,
-    image: file,
-    description: description,
-   author: author,
-   status: "New",
-   categories: selectedCategories
-}
+        if(title.length<10){
+            alert("Tiêu đề phải có ít nhất 10 ký tự");
+            return;
+        }
+        if(description.length < 30){
+            alert("Mô tả phải có ít nhất 10 ký tự");
+            return;
+        }
+        if (selectedCategories.length == 0) {
+            alert("Vui lòng chọn 1 danh mục ");
+            return
+        }
+
+        const data = {
+            title: title,
+            image: file,
+            description: description,
+            author: author,
+            status: "New",
+            categories: selectedCategories
+        }
 
         axios.post("http://localhost:8080/api/stories", data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
+
         })
+
+
             .then(response => {
+                setOpen(true)
                 console.log(response.data);
-                alert("Thêm thành công!");
-                navigate("/list");
+
+
+                setTimeout(() => {
+                    navigate("/list");
+                }, 1000);
             })
+
+
             .catch(error => {
                 console.error("Lỗi:", error.response.data);
             });
@@ -95,7 +131,7 @@ const data={
                                     <label htmlFor="file-input">
                                         <div className="image-preview">
                                             {filePreview ? (
-                                                <img src={filePreview} alt="Preview" width="200" height="200"/>
+                                                <img src={filePreview} alt="Không có ảnh" width="200" height="200"/>
                                             ) : (
                                                 <div className="image-icon">
                                                     <svg
@@ -130,10 +166,11 @@ const data={
                                 }}
                                        onChange={(e) => setTitle(e.target.value)} required/><br/><br/>
                                 <h3>Tác giả:</h3>
-                                <input type="text" className="author" placeholder="Nhập tên tác giả" value={author} style={{
-                                    width: '50%',
-                                    padding: ' 10px'
-                                }}
+                                <input type="text" className="author" placeholder="Nhập tên tác giả" value={author}
+                                       style={{
+                                           width: '50%',
+                                           padding: ' 10px'
+                                       }}
                                        onChange={(e) => setAuthor(e.target.value)} required/><br/><br/>
                                 <h3>Mô tả:</h3>
                                 <textarea id="description" rows="4" placeholder="Nhập mô tả" value={description}
@@ -150,11 +187,11 @@ const data={
                                             type="checkbox"
                                             id={category.categoryId}
                                             value={category.categoryId}
-                                            checked={selectedCategories.includes(category.categoryId)}
-                                            onChange={handleCategoryChange}
+
+                                            defaultChecked={selectedCategories.includes(category.categoryId)}
+                                            onChange={()=>{handleCategoryChange(category.categoryId)}}
                                         />
-                                        <label
-                                           >{category.categoryName}</label>
+                                        <label htmlFor={category.categoryId}>{category.categoryName}</label>
                                     </div>
                                 ))}
                                 <br/><br/>
@@ -168,7 +205,21 @@ const data={
                         </div>
                     </div>
                 </section>
+
             </main>
+            <Modal
+                open={open}
+                onClose={handleClose}
+
+            >
+                <Stack sx={{width: '100%'}} spacing={2}>
+                    <Alert variant="filled" severity="success">
+                        Thêm truyện thành công rồi
+                    </Alert>
+
+                </Stack>
+
+            </Modal>
         </>
     );
 }
