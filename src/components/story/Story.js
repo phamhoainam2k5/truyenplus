@@ -52,8 +52,7 @@ if(!story){
                         <div className="leftCol" itemScope="" itemType="http://schema.org/Book">
                             <div className="book-info-top">
                                 <div className="book-info-pic">
-                                    <img src={'http://localhost:8080/video/' + story.image} alt={story.title}/>
-
+                                    <img src={'http://localhost:8080/' + story.image} alt={story.title}/>
                                 </div>
                                 <ul className="book-info-text">
                                     <li>
@@ -64,13 +63,11 @@ if(!story){
                                         Thể loại :{" "}
                                         {story.categories.map((category, index) => (
                                             <span key={category.categoryId}>
-        <a
-
-        >
-          {category.categoryName}
-        </a>
+                                                <a>
+                                                {category.categoryName}
+                                                </a>
                                                 {index !== story.categories.length - 1 && ", "}
-      </span>
+                                            </span>
                                         ))}
                                     </li>
                                     <li>Tác giả : {story.author}</li>
@@ -104,14 +101,10 @@ if(!story){
                             <div id="gioithieu">
                                 <h2>Giới thiệu nội dung {story.title}: </h2>
                                 <div itemProp="description">
-                                    <p>
-
-                                        {story.description}
-                                    </p>
+                                    <div dangerouslySetInnerHTML={{ __html: story.description }} />
                                 </div>
                             </div>
                             <div style={{clear: "both"}}/>
-
                             <div style={{clear: "both"}}/>
                             <div id="chapter" className="chapter">
                                 <div className="book-info-chapter">
@@ -123,11 +116,11 @@ if(!story){
                                             <div className="row">
                                                 {chapters.map((chapter, index) => (
                                                     <div className="col-md-6 col-sm-12" key={index}>
-              <span>
-                <Link to={`/chapter/${story.storyId}/${chapter.chapterId}`}>
-                  {chapter.title}
-                </Link>
-              </span>
+                                                        <span>
+                                                            <Link to={`/chapter/${story.storyId}/${chapter.chapterId}`}>
+                                                            {chapter.title}
+                                                            </Link>
+                                                        </span>
                                                     </div>
                                                 ))}
                                             </div>
@@ -135,13 +128,11 @@ if(!story){
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </main>
-
     )
 }
 

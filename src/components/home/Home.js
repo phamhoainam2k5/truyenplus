@@ -66,7 +66,7 @@ function Home() {
                                         {stories.map((story, index) => (
                                             <div className="item" key={index}>
                                                 <a className="cover" >
-                                                    <img src={'http://localhost:8080/video/'+story.image} alt={story.title} />
+                                                    <img src={'http://localhost:8080/'+story.image} alt={story.title} />
                                                     <span  />
                                                 </a>
                                                 <div className="info">
@@ -76,8 +76,6 @@ function Home() {
                                                         </Link>
                                                     </h3>
                                                     <a class="sts sts_1">
-
-
                                                         {story.totalChapters} Chương
                                                     </a>
                                                 </div>

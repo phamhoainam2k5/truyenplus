@@ -1,0 +1,9 @@
+.category-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+.category {
+    flex: 0 0 calc(16.66% - 20px);
+    margin: 0 10px 0 10px;
+}

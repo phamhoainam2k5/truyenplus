@@ -1,7 +1,9 @@
 import  { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import ReactQuill from 'react-quill';
 import axios from "axios";
 import { Add } from "@mui/icons-material";
+import 'react-quill/dist/quill.snow.css';
 
 function Edit() {
     const { id } = useParams();
@@ -40,7 +42,7 @@ function Edit() {
                     setAuthor(author);
                     setDescription(description);
                     setStatus(status);
-                    setFileUrl(`http://localhost:8080/video/${image}`);
+                    setFileUrl(`http://localhost:8080/${image}`);
                     const categoryIds = categories.map(category => category.categoryId);
                     setSelectedCategories(categoryIds);
                 })
@@ -60,6 +62,9 @@ function Edit() {
         fetchStories();
     }, []);
 
+    const handleChangeDescription = (value) => {
+        setDescription(value);
+    };
 
     const handleChange = (e) => {
         setFile(e.target.files[0]);
@@ -147,11 +152,15 @@ console.log(formData);
                                        onChange={(e) => setAuthor(e.target.value)} required/>
                                 <br/>     <br/>
                                 <h3>Mô tả:</h3>
-                                <textarea id="description" style={{
+                                {/* <textarea id="description" style={{
                                     width: '50%',
                                     padding: ' 10px'
                                 }} rows="4" placeholder="Nhập mô tả" value={description}
-                                          onChange={(e) => setDescription(e.target.value)} required></textarea>
+                                          onChange={(e) => setDescription(e.target.value)} required></textarea> */}
+                                <ReactQuill 
+                                            value={description}
+                                            onChange={handleChangeDescription}
+                                />
                                 <br/> <br/>
                                 <h3>Thể loại:</h3>
                                 {categories.map(category => (
