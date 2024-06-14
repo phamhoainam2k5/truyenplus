@@ -1,24 +1,11 @@
-import "./Home.css"
 import {useEffect, useState} from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
 import {Link} from "react-router-dom";
-function Home() {
-    const [stories, setStories] = useState([]);
-    const [storiesStatus, setStoriesStatus] = useState([]);
-    const [isExpanded, setIsExpanded] = useState(false);
+import Slider from "react-slick";
 
-    useEffect(() => {
-        axios.get('http://localhost:8080/api/stories/status')
-            .then(response => {
-                setStoriesStatus(response.data);
-            })
-            .catch(error => {
-                console.error('Lỗi khi lấy ra các truyện full:', error);
-            });
-    }, []);
+function HomeFull() {
+    const [stories, setStories] = useState([]);
+
 
     useEffect(() => {
         axios.get('http://localhost:8080/api/stories')
@@ -30,21 +17,7 @@ function Home() {
             });
     }, []);
 
-    const handleExpand = (e) => {
-        e.preventDefault();
-        setIsExpanded(true);
-    };
 
-    const settings = {
-        infinite: true,
-        slidesToShow: 6,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 1000,
-        pauseOnHover: true,
-        swipe: true,
-        swipeToSlide: true
-    };
     return (
         <main>
             <div className="container">
@@ -57,7 +30,7 @@ function Home() {
                             <div className="daily-update">
                                 <h2 className="title update-title" title="TRUYỆN MỚI CẬP NHẬT">
                                     <i className="spire spire--list"/>
-                                    TRUYỆN MỚI CẬP NHẬT
+                                    TẤT
                                 </h2>
                             </div>
                             <div id="contentstory">
@@ -66,7 +39,7 @@ function Home() {
                                         {stories.map((story, index) => (
                                             <div className="item" key={index}>
                                                 <a className="cover">
-                                                    <img src={ story.image}
+                                                    <img src={'http://localhost:8080/video/' + story.image}
                                                          alt={story.title}/>
                                                     <span/>
                                                 </a>
@@ -170,7 +143,7 @@ function Home() {
                                     web đọc truyện dành cho cả gia đình, và không giới hạn lứa tuổi.
                                 </p>
                                 <p>
-                                Với phương châm “bạn đọc vui, chúng tôi vui” thì truyenplus.vn sẽ
+                                    Với phương châm “bạn đọc vui, chúng tôi vui” thì truyenplus.vn sẽ
                                     luôn phát triển và cập nhật những mẫu truyện hay và miễn phí mới
                                     nhất vì đọc giả thân yêu. Chúc bạn có những phút giây giải trí bên
                                     bộ truyện mình ưng ý.
@@ -191,5 +164,4 @@ function Home() {
 
     )
 }
-
-export default Home
+export default HomeFull;

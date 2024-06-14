@@ -1,11 +1,11 @@
-import { Link, useParams } from "react-router-dom";
-import { Add } from "@mui/icons-material";
+import {Link, useParams} from "react-router-dom";
+import {Add} from "@mui/icons-material";
 import axios from "axios";
 import {useEffect, useState} from "react";
 import {Tooltip} from "@mui/material";
 
 function ListChap() {
-    const { storyId } = useParams();
+    const {storyId} = useParams();
     const [chapters, setChapters] = useState([]);
 
 
@@ -40,7 +40,7 @@ function ListChap() {
         <main className="single_pages">
             <div className="lefts">
                 <div className="left_content">
-                    <div className="item add-product" style={{ width: "30%" }}>
+                    <div className="item add-product" style={{width: "30%"}}>
                         <Link to={`/create/${storyId}`}>
                             <div>
                                 <Add className="material-icons-sharp">add</Add>
@@ -48,7 +48,7 @@ function ListChap() {
                             </div>
                         </Link>
                     </div>
-                    <div className="item add-product" style={{ width: "30%" }}>
+                    <div className="item add-product" style={{width: "30%"}}>
                         <Link to="/list">
                             <div>
                                 <Add className="material-icons-sharp">add</Add>
@@ -57,46 +57,46 @@ function ListChap() {
                         </Link>
                     </div>
 
-                        <div>
-                            <div className="recent-orders">
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th>Số chương</th>
-                                        <th>Tên chương</th>
-                                        <th>Tên truyện</th>
-                                        <th style={{ display: "flex", justifyContent: "center" }}>Action</th>
+                    <div>
+                        <div className="recent-orders">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Số chương</th>
+                                    <th>Tên chương</th>
+                                    <th>Tên truyện</th>
+                                    <th style={{display: "flex", justifyContent: "center"}}>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {chapters.map((chap, index) => (
+                                    <tr key={chap.chapterId}>
+                                        <td>{chap.chapterNumber}</td>
+                                        <td>{chap.title}</td>
+                                        <td>{chap.story.title}</td>
+                                        <td style={{display: "flex"}}>
+                                            <Tooltip title="Sửa chương">
+                                                <Link to={`/editChapter/${chap.story.storyId}/${chap.chapterId}`}>
+                                                    <i className="fa-solid fa-pen-to-square"/>
+                                                </Link>
+                                            </Tooltip>
+                                            <a href="#" onClick={() => deleteChapters(chap.chapterId)}>
+                                                <Tooltip title="Xoá chương">
+                                                    <i className="fa-solid fa-x"/>
+                                                </Tooltip>
+                                            </a>
+                                            <Tooltip title="Xem chương">
+                                                <Link to={`/chapter/${chap.story.storyId}/${chap.chapterId}`}>
+                                                    <i className="fa-solid fa-eye"/>
+                                                </Link>
+                                            </Tooltip>
+                                        </td>
                                     </tr>
-                                    </thead>
-                                    <tbody>
-                                    {chapters.map((chap, index) => (
-                                        <tr key={chap.chapterId}>
-                                            <td>{chap.chapterNumber}</td>
-                                            <td>{chap.title}</td>
-                                            <td>{chap.story.title}</td>
-                                            <td style={{ display: "flex" }}>
-                                                <Tooltip title="Sửa chương">
-                                                    <Link to={`/editChapter/${chap.story.storyId}/${chap.chapterId}`}>
-                                                        <i className="fa-solid fa-pen-to-square"/>
-                                                    </Link>
-                                                </Tooltip>
-                                                <a href="#" onClick={() => deleteChapters(chap.chapterId)}>
-                                                    <Tooltip title="Xoá chương">
-                                                        <i className="fa-solid fa-x"/>
-                                                    </Tooltip>
-                                                </a>
-                                                <Tooltip title="Xem chương">
-                                                    <Link to={`/chapter/${chap.story.storyId}/${chap.chapterId}`}>
-                                                        <i className="fa-solid fa-eye"/>
-                                                    </Link>
-                                                </Tooltip>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                                ))}
+                                </tbody>
+                            </table>
                         </div>
+                    </div>
 
                 </div>
             </div>

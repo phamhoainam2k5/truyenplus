@@ -3,17 +3,55 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import "./../list/List.css";
 import {Add} from "@mui/icons-material";
+import ReactQuill from "react-quill";
 
+import 'react-quill/dist/quill.snow.css';
 
 function CreateChap() {
-    const { storyId } = useParams();
+    const {storyId} = useParams();
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [chapterNumber, setChapterNumber] = useState("");
     const navigate = useNavigate();
+    const formats = [
+        'font', 'size',
+        'bold', 'italic', 'underline', 'strike',
+
+
+        'header', 'blockquote',
+        'indent',
+        'direction', 'align',
+
+    ];
+
+    const modules = {
+        toolbar: [
+            [{'font': []}, {'size': []}],
+            ['bold', 'italic', 'underline', 'strike'],
+
+
+            [{'header': '1'}, {'header': '2'}, 'blockquote'],
+            [{'indent': '-1'}, {'indent': '+1'}],
+            [{'direction': 'rtl'}],
+            [{'align': []}],
+
+            ['clean']
+        ]
+    };
+    const handleChangeContent = (value) => {
+        setContent(value);
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (content.length < 30) {
+            alert("Nội dung phải có ít nhất 30 ký tự");
+            return;
+        }
+        if (title.length < 5) {
+            alert("Tiêu đề phải có ít nhất 5 ký tự");
+            return;
+        }
 
         const chapterData = {
             title: title,
@@ -28,8 +66,14 @@ function CreateChap() {
                 navigate(`/chapters/${storyId}`);
             })
             .catch(error => {
-                console.error("Lỗi rôi :", error.response.data);
+                if (error.response && error.response.status === 400) {
+                    alert("Không được trùng số chương,hãy nhập lại  !")
+                } else {
+                    console.error("Lỗi:", error);
+                }
             });
+
+
     };
 
     return (
@@ -47,15 +91,21 @@ function CreateChap() {
                                 </Link>
                             </div>
 
-                            <form onSubmit={handleSubmit} >
+                            <form onSubmit={handleSubmit}>
                                 <h3>Tiêu đề:</h3>
                                 <input type="text" className="title" placeholder="Nhập tiêu đề" value={title}
                                        onChange={(e) => setTitle(e.target.value)} required/><br/><br/>
 
                                 <h3>Nội dung:</h3>
-                                <textarea id="content" rows="4" placeholder="Nhập nội dung" value={content}
-                                          onChange={(e) => setContent(e.target.value)} required></textarea><br/><br/>
+                                <div aria-required={true}></div>
+                                <ReactQuill
+                                    value={content}
+                                    onChange={handleChangeContent}
+                                    modules={modules}
+                                    formats={formats}
 
+                                />
+                                <br/>
                                 <h3>Số chương:</h3>
                                 <input type="number" className="chapterNumber" placeholder="Nhập số chương"
                                        value={chapterNumber}

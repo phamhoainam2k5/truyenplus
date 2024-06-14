@@ -1,11 +1,14 @@
 import "./Story.css"
 import axios from "axios";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
+import 'react-quill/dist/quill.bubble.css'
+import ReactQuill from "react-quill";
+
 function Story() {
 
 
-    const { storyId } = useParams();
+    const {storyId} = useParams();
     const [chapters, setChapters] = useState([]);
     const [story, setStory] = useState("");
 
@@ -14,7 +17,8 @@ function Story() {
             axios.get(`http://localhost:8080/api/stories/${storyId}`)
                 .then(response => {
                     setStory(response.data);
-                    console.log('truyện',response.data)
+
+                    console.log('truyện', response.data)
                 })
                 .catch(error => {
                     console.error('Lỗi ruùi nha:', error);
@@ -38,11 +42,20 @@ function Story() {
 
         fetchChapters();
     }, []);
-if(!story){
-    return (<p>Load</p>)
-}
+    if (!story) {
+        return (<p>Load</p>)
+    }
+    const updatedAtArray = story.updatedAt;
 
+    const updatedAtDate = new Date(
+        updatedAtArray[0],
+        updatedAtArray[1] - 1,
+        updatedAtArray[2],
+    );
 
+    const updatedAtFormatted = `${updatedAtArray[2]} - ${updatedAtArray[1]} - ${updatedAtArray[0]}`;
+
+    console.log('Ngày cập nhật:', updatedAtFormatted);
     return (
         <main>
 
@@ -80,7 +93,7 @@ if(!story){
                                         <span className="label-status label-updating"> {story.status}</span>
                                     </li>
 
-                                    <li>Cập nhật cuối: 6/10/2024</li>
+                                    <li>Cập nhật cuối: {updatedAtFormatted}</li>
 
                                     <li>
                                         <div
@@ -104,11 +117,12 @@ if(!story){
                             <div id="gioithieu">
                                 <h2>Giới thiệu nội dung {story.title}: </h2>
                                 <div itemProp="description">
-                                    <p>
+                                    <ReactQuill
+                                        value={story.description}
+                                        readOnly={true}
+                                        theme={"bubble"}
+                                    /></div>
 
-                                        {story.description}
-                                    </p>
-                                </div>
                             </div>
                             <div style={{clear: "both"}}/>
 
