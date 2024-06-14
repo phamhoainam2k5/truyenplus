@@ -19,6 +19,6 @@ public class ChapDTO {
     private String content;
 
 
-    private Integer chapterNumber;
+    private int chapterNumber;
 
 }

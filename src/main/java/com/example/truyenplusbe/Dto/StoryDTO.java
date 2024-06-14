@@ -16,7 +16,7 @@ public class StoryDTO {
 
   private String title;
 
-    private MultipartFile image;
+    private String image;
 
 
     private String description;

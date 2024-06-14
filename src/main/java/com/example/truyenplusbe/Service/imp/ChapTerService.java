@@ -10,6 +10,7 @@ import com.example.truyenplusbe.Repository.IStoryRepository;
 import com.example.truyenplusbe.Service.IChapterService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -53,6 +54,11 @@ iChapterRepository.deleteById(id);
         }
         Story story = optionalStory.get();
 
+        // Kiểm tra xem số chương đã tồn tại trong cùng một câu truyện chưa
+        if (iChapterRepository.existsByChapterNumberAndStory_StoryId(chapDTO.getChapterNumber(), storyId)) {
+            throw new DuplicateKeyException("Số chương đã tồn tại trong truyện này.");
+        }
+
         LocalDateTime localDateTime = LocalDateTime.now();
         Chapter chapter = new Chapter(
                 null,
@@ -65,12 +71,12 @@ iChapterRepository.deleteById(id);
         );
         Chapter savedChapter = iChapterRepository.save(chapter);
 
+        // Cập nhật tổng số chương của câu truyện
         story.setTotalChapters(story.getTotalChapters() + 1);
         storyRepository.save(story);
 
         return savedChapter;
-    }
-    public Chapter updateChap(ChapDTO chapDTO,  Long chapterId) throws IOException {
+    }    public Chapter updateChap(ChapDTO chapDTO,  Long chapterId) throws IOException {
         Optional<Chapter> optionalChapter = iChapterRepository.findById(chapterId);
         if (!optionalChapter.isPresent()) {
             throw new RuntimeException("Không tìm thấy chương với ID " + chapterId);
@@ -82,7 +88,7 @@ iChapterRepository.deleteById(id);
         LocalDateTime localDateTime = LocalDateTime.now();
         chapter.setTitle(chapDTO.getTitle());
         chapter.setContent(chapDTO.getContent());
-        chapter.setChapterNumber(chapDTO.getChapterNumber());
+
         chapter.setUpdatedAt(localDateTime);
 
         return iChapterRepository.save(chapter);

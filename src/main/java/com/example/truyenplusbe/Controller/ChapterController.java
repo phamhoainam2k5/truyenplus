@@ -7,6 +7,7 @@ import com.example.truyenplusbe.Repository.IChapterRepository;
 import com.example.truyenplusbe.Repository.IStoryRepository;
 import com.example.truyenplusbe.Service.imp.ChapTerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,8 +56,12 @@ public class ChapterController {
 
     @PostMapping("/{storyId}")
     public ResponseEntity<Chapter> createChap(@RequestBody ChapDTO chapDTO, @PathVariable Long storyId) throws IOException {
-        Chapter createdChap = chapTerService.saveChap(chapDTO, storyId);
-        return new ResponseEntity<>(createdChap, HttpStatus.CREATED);
+      try {
+          Chapter createdChap = chapTerService.saveChap(chapDTO, storyId);
+          return new ResponseEntity<>(createdChap, HttpStatus.CREATED);
+      } catch (DuplicateKeyException e) {
+          return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      }
     }
     @PutMapping("/{id}")
     public ResponseEntity<Chapter> updateChapter(

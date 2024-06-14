@@ -21,11 +21,11 @@ public class Story {
 
     @Column(name = "title", nullable = false, length = 255)
     private String title;
-    @Column(name = "image", nullable = false, length = 255)
+    @Column(columnDefinition = "longtext")
     private String image;
 
 
-    @Column(name = "description")
+    @Column(columnDefinition = "longtext")
     private String description;
 
     @Column(name = "author", length = 255)
