@@ -149,3 +149,7 @@ table tbody tr:last-child td {
 #file-input {
     display: none;
 }
+.files{
+    display: none;
+
+}

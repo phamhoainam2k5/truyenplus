@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from "react";
 import {useParams, useNavigate, Link} from "react-router-dom";
 import axios from "axios";
-import {Add} from "@mui/icons-material";
+import {Add, ArrowBack} from "@mui/icons-material";
 import {Alert, Modal, Stack} from "@mui/material";
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
-
+import "./../list/List.css";
+import "./../create/Create.css";
+import striptags from "striptags";
 function Edit() {
     const {id} = useParams();
     const navigate = useNavigate();
@@ -122,11 +124,13 @@ function Edit() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (title.length < 5) {
+        const plainTextContent = striptags(title);
+        const plainTextContents = striptags(description);
+        if (plainTextContent.length < 5) {
             alert("Tiêu đề phải có ít nhất 5 ký tự");
             return;
         }
-        if (description.length < 30) {
+        if (plainTextContents.length < 30) {
             alert("Mô tả phải có ít nhất 30 ký tự");
             return;
         }
@@ -152,8 +156,11 @@ function Edit() {
             }
         })
             .then(response => {
-                setOpen(true)
-                navigate("/list");
+                setOpen(true);
+                console.log(response.data);
+                setTimeout(() => {
+                    navigate("/list");
+                }, 1000);
             })
             .catch(error => {
                 if (error.response && error.response.status === 400) {
@@ -173,7 +180,7 @@ function Edit() {
                             <div className="item add-product" style={{width: "30%"}}>
                                 <Link to="/list">
                                     <div>
-                                        <Add className="material-icons-sharp">add</Add>
+                                        <ArrowBack className="material-icons-sharp">add</ArrowBack>
                                         <p>Quay lại danh sách truyện</p>
                                     </div>
                                 </Link>
@@ -219,7 +226,7 @@ function Edit() {
                                     <div className="form-title-story">
                                         <h3>Tiêu đề:</h3>
                                         <input type="text" className="title" style={{
-                                            width: '50%',
+                                            width: '100%',
                                             padding: ' 10px'
                                         }} placeholder="Nhập tiêu đề" value={title}
                                                onChange={(e) => setTitle(e.target.value)} required/>
@@ -227,7 +234,7 @@ function Edit() {
                                     <div className="form-author-of-story">
                                         <h3>Tác giả:</h3>
                                         <input type="text" className="author" style={{
-                                            width: '50%',
+                                            width: '100%',
                                             padding: ' 10px'
                                         }} placeholder="Nhập tên tác giả" value={author}
                                                onChange={(e) => setAuthor(e.target.value)} required/>
@@ -242,19 +249,23 @@ function Edit() {
                                         />
                                     </div>
                                     <div className="form-category">
+                                        <h3>Thể loại:</h3>
                                         <div className="category-container">
-                                            <h3>Thể loại:</h3>
-                                            {categories.map(category => (
-                                                <div key={category.categoryId}>
-                                                    <input type="checkbox" id={category.categoryId}
+                                            <div className="category-grid">
+                                                {categories.map(category => (
+                                                    <div key={category.categoryId} className="category-item">
 
-                                                           defaultChecked={selectedCategories.includes(category.categoryId)}
-                                                           onChange={() => {
-                                                               handleCategoryChange(category.categoryId)
-                                                           }}/>
-                                                    <label htmlFor={category.categoryId}>{category.categoryName}</label>
-                                                </div>
-                                            ))}
+                                                        <input type="checkbox" id={category.categoryId}
+
+                                                               defaultChecked={selectedCategories.includes(category.categoryId)}
+                                                               onChange={() => {
+                                                                   handleCategoryChange(category.categoryId)
+                                                               }}/>
+                                                        <label
+                                                            htmlFor={category.categoryId}>{category.categoryName}</label>
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="form-status">
@@ -277,7 +288,9 @@ function Edit() {
 
                                     <button type="submit" style={{
                                         padding: '10px',
-                                        width: '100px', background: 'var(--color-danger)',
+                                        width: '100px',
+                                        marginTop: '20px',
+                                        background: 'var(--color-danger)',
                                         borderRadius: 'var(--border-radius-1)'
                                     }}>Submit
                                     </button>
@@ -287,18 +300,10 @@ function Edit() {
                     </div>
                 </section>
             </main>
-            <Modal
-                open={open}
-                onClose={handleClose}
-
-            >
+            <Modal open={open} onClose={handleClose}>
                 <Stack sx={{width: '100%'}} spacing={2}>
-                    <Alert variant="filled" severity="success">
-                        This is a filled success Alert.
-                    </Alert>
-
+                    <Alert variant="filled" severity="success">Sửa truyện thành công rồi</Alert>
                 </Stack>
-
             </Modal>
         </>
     );

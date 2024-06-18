@@ -1,7 +1,7 @@
 import {Link, useParams} from "react-router-dom";
-import {Add} from "@mui/icons-material";
+import {Add, ArrowBack} from "@mui/icons-material";
 import axios from "axios";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Tooltip} from "@mui/material";
 
 function ListChap() {
@@ -51,7 +51,7 @@ function ListChap() {
                     <div className="item add-product" style={{width: "30%"}}>
                         <Link to="/list">
                             <div>
-                                <Add className="material-icons-sharp">add</Add>
+                                <ArrowBack className="material-icons-sharp">add</ArrowBack>
                                 <p>Quay về danh sách truyện</p>
                             </div>
                         </Link>

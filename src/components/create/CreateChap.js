@@ -2,10 +2,12 @@ import React, {useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import "./../list/List.css";
-import {Add} from "@mui/icons-material";
+import {Add, ArrowBack} from "@mui/icons-material";
 import ReactQuill from "react-quill";
 
 import 'react-quill/dist/quill.snow.css';
+import {Alert, Modal, Stack} from "@mui/material";
+import striptags from "striptags";
 
 function CreateChap() {
     const {storyId} = useParams();
@@ -13,6 +15,10 @@ function CreateChap() {
     const [content, setContent] = useState("");
     const [chapterNumber, setChapterNumber] = useState("");
     const navigate = useNavigate();
+    const [open, setOpen] = useState(false);
+
+    const handleClose = () => setOpen(false);
+
     const formats = [
         'font', 'size',
         'bold', 'italic', 'underline', 'strike',
@@ -44,37 +50,49 @@ function CreateChap() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (content.length < 30) {
+
+
+        const currentContent = content;
+        const currentTitle = title;
+
+        // Loại bỏ các thẻ HTML chỉ để kiểm tra độ dài nội dung
+        const plainTextContent = striptags(currentContent);
+        const plainTextContents = striptags(currentTitle);
+
+        // Kiểm tra độ dài của content và title
+        if (plainTextContent.length < 30) {
             alert("Nội dung phải có ít nhất 30 ký tự");
             return;
         }
-        if (title.length < 5) {
+        if (plainTextContents.length < 5) {
             alert("Tiêu đề phải có ít nhất 5 ký tự");
             return;
         }
-
+        // Dữ liệu chương để gửi đi
         const chapterData = {
-            title: title,
-            content: content,
+            title: currentTitle,
+            content: currentContent,
             chapterNumber: chapterNumber
         };
 
+        // Gửi dữ liệu bằng axios
         axios.post(`http://localhost:8080/api/chapters/${storyId}`, chapterData)
             .then(response => {
-                console.log(response.data);
-                alert("Thêm chương thành công!");
-                navigate(`/chapters/${storyId}`);
+                setOpen(true); // Mở modal thành công
+                console.log(response.data); // Log dữ liệu phản hồi từ server
+                setTimeout(() => {
+                    navigate(`/chapters/${storyId}`); // Điều hướng sau khi thêm chương thành công
+                }, 1000);
             })
             .catch(error => {
-                if (error.response && error.response.status === 400) {
-                    alert("Không được trùng số chương,hãy nhập lại  !")
+                if (error.response && error.response.data && error.response.data.message) {
+                    alert(error.response.data.message); // Hiển thị thông báo lỗi từ server
                 } else {
-                    console.error("Lỗi:", error);
+                    alert('Lỗi không xác định.'); // Xử lý lỗi mặc định nếu không có thông tin chi tiết từ server
                 }
             });
-
-
     };
+
 
     return (
         <>
@@ -85,7 +103,7 @@ function CreateChap() {
                             <div className="item add-product" style={{width: "30%"}}>
                                 <Link to={`/chapters/${storyId}`}>
                                     <div>
-                                        <Add className="material-icons-sharp">add</Add>
+                                        <ArrowBack className="material-icons-sharp">add</ArrowBack>
                                         <p>Quay về danh sách chương</p>
                                     </div>
                                 </Link>
@@ -122,6 +140,12 @@ function CreateChap() {
                     </div>
                 </section>
             </main>
+            <Modal open={open} onClose={handleClose}>
+                <Stack sx={{width: '100%'}} spacing={2}>
+                    <Alert variant="filled" severity="success">Thêm chương thành công rồi</Alert>
+                </Stack>
+            </Modal>
+
         </>
     );
 }

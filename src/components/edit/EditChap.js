@@ -1,10 +1,12 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {Add} from "@mui/icons-material";
+import {Add, ArrowBack} from "@mui/icons-material";
 import ReactQuill from "react-quill";
 
 import 'react-quill/dist/quill.snow.css';
+import {Alert, Modal, Stack} from "@mui/material";
+import striptags from "striptags";
 
 function EditChap() {
     const {storyId, chapterId} = useParams();
@@ -22,7 +24,9 @@ function EditChap() {
         'direction', 'align',
 
     ];
+    const [open, setOpen] = useState(false);
 
+    const handleClose = () => setOpen(false);
     const modules = {
         toolbar: [
             [{'font': []}, {'size': []}],
@@ -57,20 +61,42 @@ function EditChap() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        const currentContent = content;
+        const currentTitle = title;
+
+        // Loại bỏ các thẻ HTML chỉ để kiểm tra độ dài nội dung
+        const plainTextContent = striptags(currentContent);
+        const plainTextContents = striptags(currentTitle);
+
+        // Kiểm tra độ dài của content và title
+        if (plainTextContent.length < 30) {
+            alert("Nội dung phải có ít nhất 30 ký tự");
+            return;
+        }
+        if (plainTextContents.length < 5) {
+            alert("Tiêu đề phải có ít nhất 5 ký tự");
+            return;
+        }
         const updatedChapterData = {
-            title: title,
-            content: content,
+            title: currentTitle,
+            content: currentContent
 
         };
 
         axios.put(`http://localhost:8080/api/chapters/${chapterId}`, updatedChapterData)
             .then(response => {
+                setOpen(true);
                 console.log(response.data);
-                alert("Chương đã được cập nhật thành công!");
-                navigate(`/chapters/${storyId}`);
+                setTimeout(() => {
+                    navigate(`/chapters/${storyId}`);
+                }, 1000);
             })
             .catch(error => {
-                console.error("Lỗi khi cập nhật chương:", error.response.data);
+                if (error.response && error.response.data && error.response.data.message) {
+                    alert(error.response.data.message); // Hiển thị thông báo lỗi từ server
+                } else {
+                    alert('Lỗi không xác định.'); // Xử lý lỗi mặc định nếu không có thông tin chi tiết từ server
+                }
             });
     };
 
@@ -83,7 +109,7 @@ function EditChap() {
                             <div className="item add-product" style={{width: "30%"}}>
                                 <Link to={`/chapters/${storyId}`}>
                                     <div>
-                                        <Add className="material-icons-sharp"/>
+                                        <ArrowBack className="material-icons-sharp">add</ArrowBack>
                                         <p>Quay về danh sách chương</p>
                                     </div>
                                 </Link>
@@ -135,6 +161,12 @@ function EditChap() {
                     </div>
                 </section>
             </main>
+            <Modal open={open} onClose={handleClose}>
+                <Stack sx={{width: '100%'}} spacing={2}>
+                    <Alert variant="filled" severity="success">Sửa chương thành công rồi</Alert>
+                </Stack>
+            </Modal>
+
         </>
     );
 }
