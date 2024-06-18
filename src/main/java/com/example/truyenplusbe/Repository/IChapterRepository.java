@@ -15,4 +15,5 @@ public interface IChapterRepository extends JpaRepository<Chapter,Long> {
     @Query(value = "SELECT * FROM chapters WHERE story_id = ? ORDER BY created_at DESC",nativeQuery = true)
     List<Chapter> findByStoryIdOrderByCreatedAtDesc(Long storyId);
     boolean existsByChapterNumberAndStory_StoryId(int chapterNumber, Long storyId);
+    boolean existsByTitleAndStory_StoryId(String title, Long storyId);
 }

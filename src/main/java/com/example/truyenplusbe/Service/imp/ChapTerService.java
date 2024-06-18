@@ -58,7 +58,10 @@ iChapterRepository.deleteById(id);
         if (iChapterRepository.existsByChapterNumberAndStory_StoryId(chapDTO.getChapterNumber(), storyId)) {
             throw new DuplicateKeyException("Số chương đã tồn tại trong truyện này.");
         }
-
+// Kiểm tra tiêu đề chương có trùng nhau trong cùng một câu truyện chưa
+        if (iChapterRepository.existsByTitleAndStory_StoryId(chapDTO.getTitle(), storyId)) {
+            throw new DuplicateKeyException("Tiêu đề chương đã tồn tại trong truyện này.");
+        }
         LocalDateTime localDateTime = LocalDateTime.now();
         Chapter chapter = new Chapter(
                 null,
@@ -76,7 +79,8 @@ iChapterRepository.deleteById(id);
         storyRepository.save(story);
 
         return savedChapter;
-    }    public Chapter updateChap(ChapDTO chapDTO,  Long chapterId) throws IOException {
+    }
+    public Chapter updateChap(ChapDTO chapDTO,  Long chapterId) throws IOException {
         Optional<Chapter> optionalChapter = iChapterRepository.findById(chapterId);
         if (!optionalChapter.isPresent()) {
             throw new RuntimeException("Không tìm thấy chương với ID " + chapterId);

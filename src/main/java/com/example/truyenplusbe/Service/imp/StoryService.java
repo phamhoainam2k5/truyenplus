@@ -22,9 +22,10 @@ import java.util.Optional;
 
 @Service
 public class StoryService implements IStoryService {
+
+
     @Value("${file-upload}")
     private String fileUpload;
-
     @Autowired
     private IStoryRepository iStoryRepository;
 
@@ -48,22 +49,22 @@ public class StoryService implements IStoryService {
         if (iStoryRepository.existsByTitle(storyDTO.getTitle())) {
             throw new DuplicateKeyException("Tiêu đề đã tồn tại.");
         }
-//        MultipartFile multipartFile = storyDTO.getImage();
-//        String fileName = multipartFile.getOriginalFilename();
-//        FileCopyUtils.copy(storyDTO.getImage().getBytes(), new File(fileUpload + fileName));
+        MultipartFile multipartFile = storyDTO.getImage();
+        String fileName = multipartFile.getOriginalFilename();
+        FileCopyUtils.copy(storyDTO.getImage().getBytes(), new File(fileUpload + fileName));
 
         LocalDateTime localDateTime = LocalDateTime.now();
         Story story = new Story(
                 null,
                 storyDTO.getTitle(),
-                storyDTO.getImage(),
+                fileName,
 
                 storyDTO.getDescription(),
                 storyDTO.getAuthor(),
                 localDateTime,
                 localDateTime,
 
-               "New",
+                "New",
 
                 storyDTO.getCategories(),
                 0
@@ -74,25 +75,25 @@ public class StoryService implements IStoryService {
         Optional<Story> optionalStory = iStoryRepository.findById(storyId);
 
 
-            Story story = optionalStory.get();
+        Story story = optionalStory.get();
 
-            // Kiểm tra xem tiêu đề mới có giống với tiêu đề cũ không
-            String oldTitle = story.getTitle();
-            String newTitle = storyDTO.getTitle();
-            if (!oldTitle.equalsIgnoreCase(newTitle)) {
-                // Tiêu đề mới đã thay đổi, kiểm tra xem có trùng với tiêu đề khác không
-                if (iStoryRepository.existsByTitle(newTitle)) {
-                    throw new DuplicateKeyException("Tiêu đề đã tồn tại");
-                }
-                // Tiêu đề mới không trùng, cập nhật thông tin câu chuyện
-                story.setTitle(newTitle);
+        // Kiểm tra xem tiêu đề mới có giống với tiêu đề cũ không
+        String oldTitle = story.getTitle();
+        String newTitle = storyDTO.getTitle();
+        if (!oldTitle.equalsIgnoreCase(newTitle)) {
+            // Tiêu đề mới đã thay đổi, kiểm tra xem có trùng với tiêu đề khác không
+            if (iStoryRepository.existsByTitle(newTitle)) {
+                throw new DuplicateKeyException("Tiêu đề đã tồn tại");
             }
-//        MultipartFile multipartFile = storyDTO.getImage();
-//        if (multipartFile != null && !multipartFile.isEmpty()) {
-//            String fileName = multipartFile.getOriginalFilename();
-//            FileCopyUtils.copy(multipartFile.getBytes(), new File(fileUpload + fileName));
-//            story.setImage(fileName);
-//        }
+            // Tiêu đề mới không trùng, cập nhật thông tin câu chuyện
+            story.setTitle(newTitle);
+        }
+        MultipartFile multipartFile = storyDTO.getImage();
+        if (multipartFile != null && !multipartFile.isEmpty()) {
+            String fileName = multipartFile.getOriginalFilename();
+            FileCopyUtils.copy(multipartFile.getBytes(), new File(fileUpload + fileName));
+            story.setImage(fileName);
+        }
 
 
         story.setDescription(storyDTO.getDescription());
@@ -101,10 +102,10 @@ public class StoryService implements IStoryService {
         story.setStatus(storyDTO.getStatus());
         story.setCategories(storyDTO.getCategories());
 
-            // Tiếp tục cập nhật thông tin câu chuyện và lưu vào cơ sở dữ liệu
-            // (phần này tương tự như trong ví dụ trước)
+        // Tiếp tục cập nhật thông tin câu chuyện và lưu vào cơ sở dữ liệu
+        // (phần này tương tự như trong ví dụ trước)
 
-            return iStoryRepository.save(story);
+        return iStoryRepository.save(story);
 
     }
 

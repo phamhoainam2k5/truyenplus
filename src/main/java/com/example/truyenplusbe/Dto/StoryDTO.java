@@ -16,19 +16,19 @@ public class StoryDTO {
 
   private String title;
 
-    private String image;
+  private MultipartFile image;
 
 
-    private String description;
+  private String description;
 
 
-    private String author;
+  private String author;
 
 
 
-    private String status ;
+  private String status ;
 
 
-    private Set<Category> categories = new HashSet<>();
+  private Set<Category> categories = new HashSet<>();
 
 }

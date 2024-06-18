@@ -2,6 +2,7 @@ package com.example.truyenplusbe.Controller;
 
 import com.example.truyenplusbe.Dto.ChapDTO;
 import com.example.truyenplusbe.Model.Chapter;
+import com.example.truyenplusbe.Model.ErrorResponse;
 import com.example.truyenplusbe.Model.Story;
 import com.example.truyenplusbe.Repository.IChapterRepository;
 import com.example.truyenplusbe.Repository.IStoryRepository;
@@ -55,14 +56,22 @@ public class ChapterController {
     }
 
     @PostMapping("/{storyId}")
-    public ResponseEntity<Chapter> createChap(@RequestBody ChapDTO chapDTO, @PathVariable Long storyId) throws IOException {
-      try {
-          Chapter createdChap = chapTerService.saveChap(chapDTO, storyId);
-          return new ResponseEntity<>(createdChap, HttpStatus.CREATED);
-      } catch (DuplicateKeyException e) {
-          return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-      }
+    public ResponseEntity<?> createChap(@RequestBody ChapDTO chapDTO, @PathVariable Long storyId) throws IOException {
+        try {
+            Chapter createdChap = chapTerService.saveChap(chapDTO, storyId);
+            return new ResponseEntity<>(createdChap, HttpStatus.CREATED);
+        } catch (DuplicateKeyException e) {
+            String errorMessage = e.getMessage();
+            if (errorMessage.contains("Số chương đã tồn tại trong truyện này.")) {
+                return ResponseEntity.badRequest().body(new ErrorResponse("Số chương đã tồn tại trong truyện này."));
+            } else if (errorMessage.contains("Tiêu đề chương đã tồn tại trong truyện này.")) {
+                return ResponseEntity.badRequest().body(new ErrorResponse("Tiêu đề chương đã tồn tại trong truyện này."));
+            } else {
+                return ResponseEntity.badRequest().body(new ErrorResponse("Lỗi không xác định."));
+            }
+        }
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<Chapter> updateChapter(
             @PathVariable Long id,
