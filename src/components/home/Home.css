@@ -6,11 +6,10 @@ main{
     font-size: 15px;
 }
 .title {
-    padding: 7px 15px 8px 30px;
+    padding: 7px 15px 8px 15px;
     font-weight: 600;
     font-size: 15px;
     line-height: 1.4;
-
 }
 
 .slide {
@@ -457,7 +456,6 @@ main{
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-line-clamp: 2;
-    height:48px;
 }
 .home-content h3 a{
     color: #454545;

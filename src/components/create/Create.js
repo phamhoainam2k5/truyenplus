@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import ReactQuill from 'react-quill';
 import {Link, useNavigate} from "react-router-dom";
-import {Add} from "@mui/icons-material";
+import {ArrowBack, Bolt} from "@mui/icons-material";
 import axios from "axios";
 import "./../list/List.css"
 import "./Create.css"
@@ -84,76 +84,80 @@ function Create() {
                 <section className="video_items flex">
                     <div className="lefts">
                         <div className="left_content">
-                            <div className="item add-product" style={{width: "30%"}}>
-                                <Link to="/list">
-                                    <div>
-                                        <Add className="material-icons-sharp">add</Add>
-                                        <p>Quay lại danh sách truyện</p>
-                                    </div>
-                                </Link>
+                            <div>
+                                <h1 style={{textAlign: 'center', color: "red"}}>
+                                    THÊM TRUYỆN VÀO DANH SÁCH
+                                </h1>
                             </div>
                             <form onSubmit={handleSubmit} encType="multipart/form-data">
                                 <div className="form-create-story">
-                                    <div className="form-cover-image">
-                                        <h3>Chọn ảnh từ thiết bị của bạn:</h3>
-                                        <div className="image-upload">
-                                            <label htmlFor="file-input">
-                                                <div className="image-preview">
-                                                    {filePreview ? (
-                                                        <img src={filePreview} alt="Preview" width="200" height="200"/>
-                                                    ) : (
-                                                        <div className="image-icon">
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                fill="none"
-                                                                viewBox="0 0 24 24"
-                                                                stroke="currentColor"
-                                                                width="50"
-                                                                height="50"
-                                                            >
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth={2}
-                                                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                                                />
-                                                            </svg>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </label>
-                                            <input type="file" id="file-input" onChange={handleChange} style={{display: 'none'}} required/>
+                                    <div className="infor-basic">
+                                        <div className="cover-image">
+                                            <div className="image-upload">
+                                                <h3>Ảnh bìa truyện</h3>
+                                                <label htmlFor="file-input">
+                                                    <div className="image-preview">
+                                                        {filePreview ? (
+                                                            <img src={filePreview} alt="Preview"/>
+                                                        ) : (
+                                                            <div className="image-icon">
+                                                                <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    fill="none"
+                                                                    viewBox="0 0 24 24"
+                                                                    stroke="currentColor"
+                                                                    width="50"
+                                                                    height="50"
+                                                                >
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        strokeWidth={2}
+                                                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                                                    />
+                                                                </svg>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </label>
+                                                <input type="file" id="file-input" onChange={handleChange} style={{display: 'none'}} required/>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="form-title-story">
-                                        <h3>Tiêu đề:</h3>
-                                        <input type="text" placeholder="Nhập tiêu đề" value={title} style={{ width: '50%',padding: ' 10px'}} onChange={(e) => setTitle(e.target.value)} required/><br/><br/>
-                                    </div>
-                                    <div className="form-author-of-story">
-                                        <h3>Tác giả:</h3>
-                                        <input type="text" className="author" placeholder="Nhập tên tác giả" value={author} 
-                                            style={{
-                                                width: '50%',
-                                                padding: ' 10px'
-                                            }}
-                                            onChange={(e) => setAuthor(e.target.value)} required
-                                        />
-                                    </div>
-                                    <div className="form-description">
-                                        <h3>Mô tả:</h3>
-                                        {/* <textarea id="description" rows="4" placeholder="Nhập mô tả" value={description}
-                                            style={{
-                                                width: '50%',
-                                                padding: ' 10px'
-                                            }}
-                                            onChange={(e) => setDescription(e.target.value)}
-                                            required
-                                        >
-                                        </textarea> */}
-                                        <ReactQuill 
-                                            value={description}
-                                            onChange={handleChangeDescription}
-                                        />
+                                        <div className="infor">
+                                            <div className="form-title-story">
+                                            <h3>Tiêu đề:</h3>
+                                                <input type="text" placeholder="Nhập tiêu đề" value={title} style={{ width: '50%',padding: ' 10px'}} onChange={(e) => setTitle(e.target.value)} required/><br/><br/>
+                                            </div>
+                                            <div className="form-author-of-story">
+                                                <h3>Tác giả:</h3>
+                                                <input type="text" className="author" placeholder="Nhập tên tác giả" value={author} 
+                                                    style={{
+                                                        width: '50%',
+                                                        padding: ' 10px'
+                                                    }}
+                                                    onChange={(e) => setAuthor(e.target.value)} required
+                                                />
+                                            </div>
+                                            <div className="form-description">
+                                                <h3>Mô tả:</h3>
+                                                <ReactQuill
+                                                    style={{ 
+                                                        height: '170px', 
+                                                        width: '500px',
+                                                    }}
+                                                    className="react-quill-editor"
+                                                    theme='snow'
+                                                    modules={{
+                                                        toolbar: [
+                                                            [{ 'font': [] }],
+                                                            ['bold', 'italic', 'underline'],
+                                                            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                                            [{ 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' }]
+                                                        ]
+                                                    }}
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                     <div className="form-category">
                                         <h3>Thể loại:</h3>
@@ -172,12 +176,27 @@ function Create() {
                                             ))}
                                         </div>
                                     </div>
-                                    <button type="submit" style={{
-                                        padding: '10px',
-                                        width: '100px', background: 'var(--color-danger)',
-                                        borderRadius: 'var(--border-radius-1)'
-                                    }}>Submit
-                                    </button>
+                                    <div style={{display: 'flex', marginTop: '15px'}}>
+                                        <button type="submit" 
+                                            style={{
+                                                fontWeight: "bold",
+                                                padding: '10px',
+                                                width: '100px',
+                                                background: 'red',
+                                                borderRadius: '5px'
+                                            }}
+                                        >
+                                            Submit
+                                        </button>
+                                        <div className="item add-product" style={{width: "30%"}}>
+                                            <Link to="/list" style={{color: "black"}}>
+                                                <div>
+                                                    <ArrowBack className="material-icons-sharp">add</ArrowBack>
+                                                    <p>Quay lại danh sách truyện</p>
+                                                </div>
+                                            </Link>
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
                         </div>

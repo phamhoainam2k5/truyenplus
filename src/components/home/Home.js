@@ -49,11 +49,8 @@ function Home() {
         <main>
             <div className="container">
                 <div className="wrapper homepage">
-
                     <div className="main-wrapper">
-
                         <div className="fullCol">
-
                             <div className="daily-update">
                                 <h2 className="title update-title" title="TRUYỆN MỚI CẬP NHẬT">
                                     <i className="spire spire--list"/>

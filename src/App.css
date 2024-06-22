@@ -127,7 +127,6 @@ q:after {
   content: none
 }
 
-
 .clearfix:after, .clearfix:before {
   display: table;
   content: " ";
@@ -197,6 +196,6 @@ a:hover{
 .app__lists {
   display: flex;
   justify-content: center;
-  margin-left: 120px;
-
+  margin: auto;
+  margin-top: 0;
 }

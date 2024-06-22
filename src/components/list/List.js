@@ -9,7 +9,7 @@ import {Pagination, Tooltip} from "@mui/material";
 function List() {
     const [stories, setStories] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [storiesPerPage] = useState(3);
+    const [storiesPerPage] = useState(5);
 
     useEffect(() => {
         fetchStories();
