@@ -130,3 +130,7 @@ table tbody tr:last-child td {
     width: 400px;
     height: 40px;
 }
+.files{
+    display: none;
+
+}

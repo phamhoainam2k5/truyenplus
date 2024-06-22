@@ -65,6 +65,10 @@ function Home() {
                                                 <a className="cover" >
                                                     <img src={'http://localhost:8080/'+story.image} alt={story.title} />
                                                     <span  />
+//                                                 <a className="cover">
+//                                                     <img src={`http://localhost:8080/video/${story.image}`}
+//                                                          alt={story.title}/>
+//                                                     <span/>
                                                 </a>
                                                 <div className="info">
                                                     <h3>
@@ -72,7 +76,7 @@ function Home() {
                                                             {story.title}
                                                         </Link>
                                                     </h3>
-                                                    <a class="sts sts_1">
+                                                    <a className="sts sts_1">
                                                         {story.totalChapters} Chương
                                                     </a>
                                                 </div>
@@ -94,7 +98,8 @@ function Home() {
                                             {storiesStatus.map((story, index) => (
                                                 <div className="item" key={index}>
                                                     <a className="cover" href={`/`}>
-                                                        <img src={`http://localhost:8080/video/${story.image}`} alt={story.title} />
+                                                        <img src={`http://localhost:8080/video/${story.image}`}
+                                                             alt={story.title}/>
                                                     </a>
                                                     <div className="info">
                                                         <h3>
@@ -115,7 +120,11 @@ function Home() {
 
                                 </div>
                             </div>
-
+                            <div id="loadpage">
+                                <div>
+                                    <a href="/the-loai/all" className="xem-them">XEM THÊM</a>
+                                </div>
+                            </div>
                         </div>
                         <div className="clearfix"/>
                         <div className="onpage">

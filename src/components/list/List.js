@@ -1,8 +1,8 @@
 import "./List.css";
-import { Add } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import {Add} from "@mui/icons-material";
+import {Link} from "react-router-dom";
 
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import {Pagination, Tooltip} from "@mui/material";
 
@@ -102,11 +102,11 @@ function List() {
                                                 </Link>
                                             </Tooltip>
 
-                                                <Tooltip title="Xem truyện">
-                                                    <Link to={`/story/${story.storyId}`}>
+                                            <Tooltip title="Xem truyện">
+                                                <Link to={`/story/${story.storyId}`}>
                                                     <i className="fa-solid fa-eye"/>
                                                 </Link>
-                                                </Tooltip>
+                                            </Tooltip>
 
                                         </td>
                                     </tr>
@@ -120,7 +120,6 @@ function List() {
             </div>
             <div className="pagination">
                 <Pagination
-                    // hiển thị số lượng trang tính bằng cách lấy tổng lượng truyện trong mảng chia cho tổng lượng truyện hiển thị ở mỗi trang
                     count={Math.ceil(stories.length / storiesPerPage)}
                     page={currentPage}
                     onChange={handlePageChange}

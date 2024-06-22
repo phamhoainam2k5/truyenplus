@@ -1,11 +1,11 @@
-import { Link, useParams } from "react-router-dom";
-import { Add, ArrowBack } from "@mui/icons-material";
+import {Link, useParams} from "react-router-dom";
+import {Add, ArrowBack} from "@mui/icons-material";
 import axios from "axios";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Tooltip} from "@mui/material";
 
 function ListChap() {
-    const { storyId } = useParams();
+    const {storyId} = useParams();
     const [chapters, setChapters] = useState([]);
 
 
@@ -40,24 +40,43 @@ function ListChap() {
         <main className="single_pages">
             <div className="lefts">
                 <div className="left_content">
-                    <div className="btn" style={{display: 'flex'}}>
-                        <div className="item add-product" style={{ width: "30%", marginLeft: '0' }}>
-                            <Link to={`/create/${storyId}`}>
-                                <div>
-                                    <Add className="material-icons-sharp">add</Add>
-                                    <p>Thêm chap</p>
-                                </div>
-                            </Link>
-                        </div>
-                        <div className="item add-product" style={{ width: "30%" }}>
-                            <Link to="/list">
-                                <div>
-                                    <ArrowBack className="material-icons-sharp">add</ArrowBack>
-                                    <p>Quay về danh sách truyện</p>
-                                </div>
-                            </Link>
-                        </div>
-                    </div>
+// <<<<<<< interface-text-editor
+//                     <div className="btn" style={{display: 'flex'}}>
+//                         <div className="item add-product" style={{ width: "30%", marginLeft: '0' }}>
+//                             <Link to={`/create/${storyId}`}>
+//                                 <div>
+//                                     <Add className="material-icons-sharp">add</Add>
+//                                     <p>Thêm chap</p>
+//                                 </div>
+//                             </Link>
+//                         </div>
+//                         <div className="item add-product" style={{ width: "30%" }}>
+//                             <Link to="/list">
+//                                 <div>
+//                                     <ArrowBack className="material-icons-sharp">add</ArrowBack>
+//                                     <p>Quay về danh sách truyện</p>
+//                                 </div>
+//                             </Link>
+//                         </div>
+//                     </div>
+// =======
+//                     <div className="item add-product" style={{width: "30%"}}>
+//                         <Link to={`/create/${storyId}`}>
+//                             <div>
+//                                 <Add className="material-icons-sharp">add</Add>
+//                                 <p>Thêm chap</p>
+//                             </div>
+//                         </Link>
+//                     </div>
+//                     <div className="item add-product" style={{width: "30%"}}>
+//                         <Link to="/list">
+//                             <div>
+//                                 <ArrowBack className="material-icons-sharp">add</ArrowBack>
+//                                 <p>Quay về danh sách truyện</p>
+//                             </div>
+//                         </Link>
+//                     </div>
+// >>>>>>> interface
                     <div>
                         <div className="recent-orders">
                             <table>

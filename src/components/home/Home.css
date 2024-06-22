@@ -11,6 +11,23 @@ main{
     font-size: 15px;
     line-height: 1.4;
 }
+.xem-them {
+    float: left;
+    width: 100%;
+    font: 400 16px/43px Tahoma;
+    color: #FFF;
+    text-align: center;
+    background: #4a4a4a;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -o-transition: all .3s;
+    cursor: pointer
+}
+
+.xem-them:hover {
+    background: #c0392b
+}
+
 
 .slide {
     width: 100%;

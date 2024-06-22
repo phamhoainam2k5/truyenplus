@@ -3,34 +3,73 @@ import ReactQuill from 'react-quill';
 import {Link, useNavigate} from "react-router-dom";
 import {ArrowBack, Bolt} from "@mui/icons-material";
 import axios from "axios";
-import "./../list/List.css"
-import "./Create.css"
+// <<<<<<< interface-text-editor
+// import "./../list/List.css"
+// import "./Create.css"
+// import 'react-quill/dist/quill.snow.css';
+// =======
+import "./../list/List.css";
+// import {Link, useNavigate} from "react-router-dom";
+import {Add, ArrowBack} from "@mui/icons-material";
+import {Alert, Modal, Stack} from "@mui/material";
+import ReactQuill from "react-quill";
+import "./Create.css";
 import 'react-quill/dist/quill.snow.css';
+import striptags from "striptags";
+// >>>>>>> interface
 
 function Create() {
-    const [file, setFile] = useState("");
+    const [file, setFile] = useState(null);
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
     const [description, setDescription] = useState("");
     const [categories, setCategories] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [filePreview, setFilePreview] = useState("");
+    const [open, setOpen] = useState(false);
+
+    const handleClose = () => setOpen(false);
+
 
     const handleChange = (e) => {
         const selectedFile = e.target.files[0];
+        if (!selectedFile.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+            alert("Không phải ảnh đề nghị chọn lại");
+            setFilePreview("");
+            setFile(null);
+            return;
+        }
         setFile(selectedFile);
         setFilePreview(URL.createObjectURL(selectedFile));
-    }
+    };
+    const formats = [
+        'font', 'size',
+        'bold', 'italic', 'underline', 'strike',
+        'header', 'blockquote',
+        'indent',
+        'direction', 'align',
+    ];
 
-    const handleCategoryChange = (e) => {
-        const categoryId = parseInt(e.target.value, 10);
-        if (e.target.checked) {
+    const modules = {
+        toolbar: [
+            [{ 'font': [] }, { 'size': [] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ 'header': '1' }, { 'header': '2' }, 'blockquote'],
+            [{ 'indent': '-1' }, { 'indent': '+1' }],
+            [{ 'direction': 'rtl' }],
+            [{ 'align': [] }],
+            ['clean']
+        ]
+    };
+
+    const handleCategoryChange = (categoryId) => {
+        if (!selectedCategories.includes(categoryId)) {
             setSelectedCategories([...selectedCategories, categoryId]);
         } else {
-            setSelectedCategories(selectedCategories.filter(id => id !== categoryId));
+            const dataCategories = selectedCategories.filter(id => id !== categoryId)
+            setSelectedCategories(dataCategories);
         }
-
-    }
+    };
 
     const navigate = useNavigate();
 
@@ -52,31 +91,60 @@ function Create() {
         setDescription(value);
     };
 
+    const convertToUppercase = (title) => {
+        return title.replace(/(?:^|\s)\S/g, char => char.toUpperCase());
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        const data={
-            title: title,
+
+        const plainTextContent = striptags(title);
+        const plainTextContents = striptags(description);
+        if (plainTextContent.length < 5) {
+            alert("Tiêu đề phải có ít nhất 5 ký tự");
+            return;
+        }
+        if (plainTextContents.length < 30) {
+            alert("Mô tả phải có ít nhất 30 ký tự");
+            return;
+        }
+        if (selectedCategories.length === 0) {
+            alert("Vui lòng chọn 1 danh mục");
+            return;
+        }
+
+        const titleData = convertToUppercase(title);
+
+        const data = {
+            title: titleData,
             image: file,
             description: description,
             author: author,
             status: "New",
             categories: selectedCategories
-        }
-        
+        };
+
         axios.post("http://localhost:8080/api/stories", data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         })
-        .then(response => {
-            console.log(response.data);
-            alert("Thêm thành công!");
-            navigate("/list");
-        })
-        .catch(error => {
-            console.error("Lỗi:", error.response.data);
-        });
-    }
+
+          .then(response => {
+              setOpen(true);
+              console.log(response.data);
+              setTimeout(() => {
+                  navigate("/list");
+              }, 1000);
+          })
+          .catch(error => {
+              if (error.response && error.response.status === 400) {
+                  alert("Không được trùng tên truyện,hãy nhập lại tên khác !");
+              } else {
+                  console.error("Lỗi:", error);
+              }
+          });
+    };
 
     return (
         <>
@@ -99,6 +167,26 @@ function Create() {
                                                     <div className="image-preview">
                                                         {filePreview ? (
                                                             <img src={filePreview} alt="Preview"/>
+//                             <div className="item add-product" style={{width: "30%"}}>
+//                                 <Link to="/list">
+//                                     <div>
+//                                         <ArrowBack className="material-icons-sharp">add</ArrowBack>
+//                                         <p>Quay lại danh sách truyện</p>
+//                                     </div>
+//                                 </Link>
+//                             </div>
+//                             <form onSubmit={handleSubmit}>
+//                                 <div className="form-create-story">
+//                                     <div className="form-cover-title-author">
+//                                         <div className="form-cover-image">
+//                                             <h3>Chọn ảnh từ thiết bị của bạn:</h3>
+//                                             <div className="image-upload">
+//                                                 <label htmlFor="file-input">
+//                                                     <div className="image-preview">
+//                                                         {filePreview ? (
+//                                                             <img src={filePreview} alt="Không có ảnh" width="200"
+//                                                                  height="200"/>
+// >>>>>>> interface
                                                         ) : (
                                                             <div className="image-icon">
                                                                 <svg
@@ -120,89 +208,160 @@ function Create() {
                                                         )}
                                                     </div>
                                                 </label>
-                                                <input type="file" id="file-input" onChange={handleChange} style={{display: 'none'}} required/>
-                                            </div>
-                                        </div>
-                                        <div className="infor">
-                                            <div className="form-title-story">
-                                            <h3>Tiêu đề:</h3>
-                                                <input type="text" placeholder="Nhập tiêu đề" value={title} style={{ width: '50%',padding: ' 10px'}} onChange={(e) => setTitle(e.target.value)} required/><br/><br/>
-                                            </div>
-                                            <div className="form-author-of-story">
-                                                <h3>Tác giả:</h3>
-                                                <input type="text" className="author" placeholder="Nhập tên tác giả" value={author} 
-                                                    style={{
-                                                        width: '50%',
-                                                        padding: ' 10px'
-                                                    }}
-                                                    onChange={(e) => setAuthor(e.target.value)} required
-                                                />
-                                            </div>
-                                            <div className="form-description">
-                                                <h3>Mô tả:</h3>
-                                                <ReactQuill
-                                                    style={{ 
-                                                        height: '170px', 
-                                                        width: '500px',
-                                                    }}
-                                                    className="react-quill-editor"
-                                                    theme='snow'
-                                                    modules={{
-                                                        toolbar: [
-                                                            [{ 'font': [] }],
-                                                            ['bold', 'italic', 'underline'],
-                                                            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                                                            [{ 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' }]
-                                                        ]
-                                                    }}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="form-category">
-                                        <h3>Thể loại:</h3>
-                                        <div class="category-container">
-                                            {categories.map(category => (
-                                                <div key={category.categoryId} className="category">
-                                                    <input
-                                                        type="checkbox"
-                                                        id={category.categoryId}
-                                                        value={category.categoryId}
-                                                        checked={selectedCategories.includes(category.categoryId)}
-                                                        onChange={handleCategoryChange}
-                                                    />
-                                                    <label>{category.categoryName}</label>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    <div style={{display: 'flex', marginTop: '15px'}}>
-                                        <button type="submit" 
-                                            style={{
-                                                fontWeight: "bold",
-                                                padding: '10px',
-                                                width: '100px',
-                                                background: 'red',
-                                                borderRadius: '5px'
-                                            }}
-                                        >
-                                            Submit
-                                        </button>
-                                        <div className="item add-product" style={{width: "30%"}}>
-                                            <Link to="/list" style={{color: "black"}}>
-                                                <div>
-                                                    <ArrowBack className="material-icons-sharp">add</ArrowBack>
-                                                    <p>Quay lại danh sách truyện</p>
-                                                </div>
-                                            </Link>
-                                        </div>
-                                    </div>
+// <<<<<<< interface-text-editor
+//                                                 <input type="file" id="file-input" onChange={handleChange} style={{display: 'none'}} required/>
+//                                             </div>
+//                                         </div>
+//                                         <div className="infor">
+//                                             <div className="form-title-story">
+//                                             <h3>Tiêu đề:</h3>
+//                                                 <input type="text" placeholder="Nhập tiêu đề" value={title} style={{ width: '50%',padding: ' 10px'}} onChange={(e) => setTitle(e.target.value)} required/><br/><br/>
+//                                             </div>
+//                                             <div className="form-author-of-story">
+//                                                 <h3>Tác giả:</h3>
+//                                                 <input type="text" className="author" placeholder="Nhập tên tác giả" value={author} 
+//                                                     style={{
+//                                                         width: '50%',
+//                                                         padding: ' 10px'
+//                                                     }}
+//                                                     onChange={(e) => setAuthor(e.target.value)} required
+//                                                 />
+//                                             </div>
+//                                             <div className="form-description">
+//                                                 <h3>Mô tả:</h3>
+//                                                 <ReactQuill
+//                                                     style={{ 
+//                                                         height: '170px', 
+//                                                         width: '500px',
+//                                                     }}
+//                                                     className="react-quill-editor"
+//                                                     theme='snow'
+//                                                     modules={{
+//                                                         toolbar: [
+//                                                             [{ 'font': [] }],
+//                                                             ['bold', 'italic', 'underline'],
+//                                                             [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+//                                                             [{ 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' }]
+//                                                         ]
+//                                                     }}
+// =======
+//                                                 <input type="file" id="file-input" onChange={handleChange}
+//                                                        style={{display: 'none'}} required/>
+//                                             </div>
+//                                         </div>
+//                                         <div className="form-title-author">
+//                                             <div className="form-title-story">
+//                                                 <h3>Tiêu đề:</h3>
+//                                                 <input
+//                                                     type="text"
+//                                                     placeholder="Nhập tiêu đề"
+//                                                     value={title}
+//                                                     style={{width: '100%', padding: '10px'}}
+//                                                     onChange={(e) => setTitle(e.target.value)}
+//                                                     required
+//                                                 />
+//                                             </div>
+//                                             <div className="form-author-of-story">
+//                                                 <h3>Tác giả:</h3>
+//                                                 <input
+//                                                     type="text"
+//                                                     className="author"
+//                                                     placeholder="Nhập tên tác giả"
+//                                                     value={author}
+//                                                     style={{width: '100%', padding: '10px'}}
+//                                                     onChange={(e) => setAuthor(e.target.value)}
+//                                                     required
+// >>>>>>> interface
+//                                                 />
+//                                             </div>
+//                                         </div>
+//                                     </div>
+// <<<<<<< interface-text-editor
+//                                     <div className="form-category">
+//                                         <h3>Thể loại:</h3>
+//                                         <div class="category-container">
+//                                             {categories.map(category => (
+//                                                 <div key={category.categoryId} className="category">
+//                                                     <input
+//                                                         type="checkbox"
+//                                                         id={category.categoryId}
+//                                                         value={category.categoryId}
+//                                                         checked={selectedCategories.includes(category.categoryId)}
+//                                                         onChange={handleCategoryChange}
+//                                                     />
+//                                                     <label>{category.categoryName}</label>
+//                                                 </div>
+//                                             ))}
+//                                         </div>
+//                                     </div>
+//                                     <div style={{display: 'flex', marginTop: '15px'}}>
+//                                         <button type="submit" 
+//                                             style={{
+//                                                 fontWeight: "bold",
+//                                                 padding: '10px',
+//                                                 width: '100px',
+//                                                 background: 'red',
+//                                                 borderRadius: '5px'
+//                                             }}
+//                                         >
+//                                             Submit
+//                                         </button>
+//                                         <div className="item add-product" style={{width: "30%"}}>
+//                                             <Link to="/list" style={{color: "black"}}>
+//                                                 <div>
+//                                                     <ArrowBack className="material-icons-sharp">add</ArrowBack>
+//                                                     <p>Quay lại danh sách truyện</p>
+//                                                 </div>
+//                                             </Link>
+//                                         </div>
+//                                     </div>
+// =======
+//                                     <div className="form-description">
+//                                         <h3>Mô tả:</h3>
+//                                         <ReactQuill value={description} onChange={handleChangeDescription}
+//                                                     modules={modules} formats={formats}/>
+//                                     </div>
+//                                     <div className="form-category">
+//                                         <h3>Thể loại:</h3>
+//                                         <div className="category-container">
+//                                             <div className="category-grid">
+//                                                 {categories.map((category, index) => (
+//                                                     <div key={category.categoryId} className="category-item">
+//                                                         <input
+//                                                             type="checkbox"
+//                                                             id={category.categoryId}
+//                                                             value={category.categoryId}
+//                                                             defaultChecked={selectedCategories.includes(category.categoryId)}
+//                                                             onChange={() => handleCategoryChange(category.categoryId)}
+//                                                         />
+//                                                         <label
+//                                                             htmlFor={category.categoryId}>{category.categoryName}</label>
+//                                                     </div>
+//                                                 ))}
+//                                             </div>
+//                                         </div>
+//                                     </div>
+//                                     <button type="submit" style={{
+//                                         padding: '10px',
+//                                         width: '100px',
+//                                         marginTop: '20px',
+//                                         background: 'var(--color-danger)',
+//                                         borderRadius: 'var(--border-radius-1)'
+//                                     }}>Submit
+//                                     </button>
+// >>>>>>> interface
                                 </div>
                             </form>
                         </div>
                     </div>
                 </section>
             </main>
+
+            <Modal open={open} onClose={handleClose}>
+                <Stack sx={{width: '100%'}} spacing={2}>
+                    <Alert variant="filled" severity="success">Thêm truyện thành công rồi</Alert>
+                </Stack>
+            </Modal>
         </>
     );
 }
