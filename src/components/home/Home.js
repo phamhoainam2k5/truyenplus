@@ -49,11 +49,8 @@ function Home() {
         <main>
             <div className="container">
                 <div className="wrapper homepage">
-
                     <div className="main-wrapper">
-
                         <div className="fullCol">
-
                             <div className="daily-update">
                                 <h2 className="title update-title" title="TRUYỆN MỚI CẬP NHẬT">
                                     <i className="spire spire--list"/>
@@ -65,10 +62,13 @@ function Home() {
                                     <div className="listitems">
                                         {stories.map((story, index) => (
                                             <div className="item" key={index}>
-                                                <a className="cover">
-                                                    <img src={`http://localhost:8080/video/${story.image}`}
-                                                         alt={story.title}/>
-                                                    <span/>
+                                                <a className="cover" >
+                                                    <img src={'http://localhost:8080/'+story.image} alt={story.title} />
+                                                    <span  />
+//                                                 <a className="cover">
+//                                                     <img src={`http://localhost:8080/video/${story.image}`}
+//                                                          alt={story.title}/>
+//                                                     <span/>
                                                 </a>
                                                 <div className="info">
                                                     <h3>
@@ -77,8 +77,6 @@ function Home() {
                                                         </Link>
                                                     </h3>
                                                     <a className="sts sts_1">
-
-
                                                         {story.totalChapters} Chương
                                                     </a>
                                                 </div>

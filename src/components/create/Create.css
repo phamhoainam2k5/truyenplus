@@ -1,6 +1,24 @@
+.infor-basic {
+    margin-top: 10px;
+    margin-bottom: 40px;
+    display: flex;
+    width: 100%;
+}
+.form-title-story, .form-author-of-story, .form-description {
+    margin-left: 20px;
+    width: 1000px;
+}
+.form-description {
+    margin-top: 30px;
+}
 .category-container {
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+.category {
+    flex: 0 0 calc(16.66% - 20px);
+    margin: 10px 10px 0 0;
 }
 
 .category-grid {

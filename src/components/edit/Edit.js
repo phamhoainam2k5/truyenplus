@@ -8,6 +8,7 @@ import 'react-quill/dist/quill.snow.css';
 import "./../list/List.css";
 import "./../create/Create.css";
 import striptags from "striptags";
+
 function Edit() {
     const {id} = useParams();
     const navigate = useNavigate();
@@ -47,7 +48,8 @@ function Edit() {
                     setAuthor(author);
                     setDescription(description);
                     setStatus(status);
-                    setFileUrl(`http://localhost:8080/video/${image}`);
+                    setFileUrl(`http://localhost:8080/${image}`);
+//                     setFileUrl(`http://localhost:8080/video/${image}`);
                     setFile(file);
                     const categoryIds = categories.map(category => category.categoryId);
                     setSelectedCategories(categoryIds);
@@ -84,7 +86,6 @@ function Edit() {
         toolbar: [
             [{'font': []}, {'size': []}],
             ['bold', 'italic', 'underline', 'strike'],
-
 
             [{'header': '1'}, {'header': '2'}, 'blockquote'],
             [{'indent': '-1'}, {'indent': '+1'}],
@@ -186,50 +187,101 @@ function Edit() {
                                 </Link>
                             </div>
                             <form onSubmit={handleSubmit} noValidate encType="multipart/form-data"
-                            >
-                                <div className="form-create-story">
-                                    <div className="form-cover-image">
+// <<<<<<< interface-text-editor
+//                                   className="form-container">
+//                                 <br/>  <br/>
+//                                 <h3>Chọn ảnh :</h3>
+//                                 <div className="image-upload">
+//                                     <label htmlFor="file-input" className="image-preview">
+//                                         {fileUrl ? <img src={fileUrl} alt="Selected file" style={{
+//                                                 maxWidth: '100%',
+//                                                 height: '100%'
+//                                             }}/> :
+//                                             <div className="image-icon">📷</div>}
+//                                     </label>
+//                                     <input type="file" id="file-input" onChange={handleChange} accept="image/*"/>
+//                                 </div>
+//                                 <br/> <br/>
+//                                 <h3>Tiêu đề:</h3>
+//                                 <input type="text" className="title" style={{
+//                                     width: '50%',
+//                                     padding: ' 10px'
+//                                 }} placeholder="Nhập tiêu đề" value={title}
+//                                        onChange={(e) => setTitle(e.target.value)} required/>
+//                                 <br/> <br/>
+//                                 <h3>Tác giả:</h3>
+//                                 <input type="text" className="author" style={{
+//                                     width: '50%',
+//                                     padding: ' 10px'
+//                                 }} placeholder="Nhập tên tác giả" value={author}
+//                                        onChange={(e) => setAuthor(e.target.value)} required/>
+//                                 <br/>     <br/>
+//                                 <h3>Mô tả:</h3>
+//                                 {/* <textarea id="description" style={{
+//                                     width: '50%',
+//                                     padding: ' 10px'
+//                                 }} rows="4" placeholder="Nhập mô tả" value={description}
+//                                           onChange={(e) => setDescription(e.target.value)} required></textarea> */}
+//                                 <ReactQuill 
+//                                             value={description}
+//                                             onChange={handleChangeDescription}
+//                                 />
+//                                 <br/> <br/>
+//                                 <h3>Thể loại:</h3>
+//                                 {categories.map(category => (
+//                                     <div key={category.categoryId}>
+//                                         <input type="checkbox" id={category.categoryId}
+//                                                value={category.categoryId}
+//                                                checked={selectedCategories.includes(category.categoryId)}
+//                                                onChange={handleCategoryChange}/>
+//                                         <label
+//                                           >{category.categoryName}</label>
+// =======
+//                             >
+//                                 <div className="form-create-story">
+//                                     <div className="form-cover-image">
 
-                                        <h3>Chọn ảnh từ thiết bị của bạn:</h3>
-                                        <div className="image-upload">
-                                            <label htmlFor="file-input">
-                                                <div className="image-preview">
-                                                    {fileUrl ? (<img src={fileUrl} alt="Selected file" style={{
-                                                        maxWidth: '100%',
-                                                        height: '100%'
-                                                    }}/>) : (
-                                                        <div className="image-icon">
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                fill="none"
-                                                                viewBox="0 0 24 24"
-                                                                stroke="currentColor"
-                                                                width="50"
-                                                                height="50"
-                                                            >
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth={2}
-                                                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                                                />
-                                                            </svg>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </label>
-                                            <input type="file" id="file-input" onChange={handleChange}
-                                                   style={{display: 'none'}}
-                                                   required/>
-                                        </div>
-                                    </div>
-                                    <div className="form-title-story">
-                                        <h3>Tiêu đề:</h3>
-                                        <input type="text" className="title" style={{
-                                            width: '100%',
-                                            padding: ' 10px'
-                                        }} placeholder="Nhập tiêu đề" value={title}
-                                               onChange={(e) => setTitle(e.target.value)} required/>
+//                                         <h3>Chọn ảnh từ thiết bị của bạn:</h3>
+//                                         <div className="image-upload">
+//                                             <label htmlFor="file-input">
+//                                                 <div className="image-preview">
+//                                                     {fileUrl ? (<img src={fileUrl} alt="Selected file" style={{
+//                                                         maxWidth: '100%',
+//                                                         height: '100%'
+//                                                     }}/>) : (
+//                                                         <div className="image-icon">
+//                                                             <svg
+//                                                                 xmlns="http://www.w3.org/2000/svg"
+//                                                                 fill="none"
+//                                                                 viewBox="0 0 24 24"
+//                                                                 stroke="currentColor"
+//                                                                 width="50"
+//                                                                 height="50"
+//                                                             >
+//                                                                 <path
+//                                                                     strokeLinecap="round"
+//                                                                     strokeLinejoin="round"
+//                                                                     strokeWidth={2}
+//                                                                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+//                                                                 />
+//                                                             </svg>
+//                                                         </div>
+//                                                     )}
+//                                                 </div>
+//                                             </label>
+//                                             <input type="file" id="file-input" onChange={handleChange}
+//                                                    style={{display: 'none'}}
+//                                                    required/>
+//                                         </div>
+//                                     </div>
+//                                     <div className="form-title-story">
+//                                         <h3>Tiêu đề:</h3>
+//                                         <input type="text" className="title" style={{
+//                                             width: '100%',
+//                                             padding: ' 10px'
+//                                         }} placeholder="Nhập tiêu đề" value={title}
+//                                                onChange={(e) => setTitle(e.target.value)} required/>
+// >>>>>>> interface
                                     </div>
                                     <div className="form-author-of-story">
                                         <h3>Tác giả:</h3>

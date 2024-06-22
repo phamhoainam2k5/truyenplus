@@ -40,23 +40,43 @@ function ListChap() {
         <main className="single_pages">
             <div className="lefts">
                 <div className="left_content">
-                    <div className="item add-product" style={{width: "30%"}}>
-                        <Link to={`/create/${storyId}`}>
-                            <div>
-                                <Add className="material-icons-sharp">add</Add>
-                                <p>Thêm chap</p>
-                            </div>
-                        </Link>
-                    </div>
-                    <div className="item add-product" style={{width: "30%"}}>
-                        <Link to="/list">
-                            <div>
-                                <ArrowBack className="material-icons-sharp">add</ArrowBack>
-                                <p>Quay về danh sách truyện</p>
-                            </div>
-                        </Link>
-                    </div>
-
+// <<<<<<< interface-text-editor
+//                     <div className="btn" style={{display: 'flex'}}>
+//                         <div className="item add-product" style={{ width: "30%", marginLeft: '0' }}>
+//                             <Link to={`/create/${storyId}`}>
+//                                 <div>
+//                                     <Add className="material-icons-sharp">add</Add>
+//                                     <p>Thêm chap</p>
+//                                 </div>
+//                             </Link>
+//                         </div>
+//                         <div className="item add-product" style={{ width: "30%" }}>
+//                             <Link to="/list">
+//                                 <div>
+//                                     <ArrowBack className="material-icons-sharp">add</ArrowBack>
+//                                     <p>Quay về danh sách truyện</p>
+//                                 </div>
+//                             </Link>
+//                         </div>
+//                     </div>
+// =======
+//                     <div className="item add-product" style={{width: "30%"}}>
+//                         <Link to={`/create/${storyId}`}>
+//                             <div>
+//                                 <Add className="material-icons-sharp">add</Add>
+//                                 <p>Thêm chap</p>
+//                             </div>
+//                         </Link>
+//                     </div>
+//                     <div className="item add-product" style={{width: "30%"}}>
+//                         <Link to="/list">
+//                             <div>
+//                                 <ArrowBack className="material-icons-sharp">add</ArrowBack>
+//                                 <p>Quay về danh sách truyện</p>
+//                             </div>
+//                         </Link>
+//                     </div>
+// >>>>>>> interface
                     <div>
                         <div className="recent-orders">
                             <table>
@@ -65,7 +85,7 @@ function ListChap() {
                                     <th>Số chương</th>
                                     <th>Tên chương</th>
                                     <th>Tên truyện</th>
-                                    <th style={{display: "flex", justifyContent: "center"}}>Action</th>
+                                    <th style={{ display: "flex", justifyContent: "center" }}>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -74,7 +94,7 @@ function ListChap() {
                                         <td>{chap.chapterNumber}</td>
                                         <td>{chap.title}</td>
                                         <td>{chap.story.title}</td>
-                                        <td style={{display: "flex"}}>
+                                        <td style={{ display: "flex" }}>
                                             <Tooltip title="Sửa chương">
                                                 <Link to={`/editChapter/${chap.story.storyId}/${chap.chapterId}`}>
                                                     <i className="fa-solid fa-pen-to-square"/>
@@ -97,7 +117,6 @@ function ListChap() {
                             </table>
                         </div>
                     </div>
-
                 </div>
             </div>
         </main>
