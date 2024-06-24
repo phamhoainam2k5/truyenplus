@@ -53,7 +53,7 @@ function Story() {
         updatedAtArray[2],
     );
 
-    const updatedAtFormatted = `${updatedAtArray[2]} - ${updatedAtArray[1]} - ${updatedAtArray[0]}`;
+    const updatedAtFormatted = `${updatedAtArray[2]}/${updatedAtArray[1]}/${updatedAtArray[0]}`;
 
     console.log('Ngày cập nhật:', updatedAtFormatted);
     return (
@@ -110,21 +110,16 @@ function Story() {
                                     </li>
                                 </ul>
                             </div>
-
                             <div id="gioithieu">
                                 <h2>Giới thiệu nội dung {story.title}: </h2>
                                 <div itemProp="description">
-// <<<<<<< interface-text-editor
-//                                     <div dangerouslySetInnerHTML={{ __html: story.description }} />
-//                                 </div>
-// =======
-//                                     <ReactQuill
-//                                         value={story.description}
-//                                         readOnly={true}
-//                                         theme={"bubble"}
-//                                     /></div>
-
-// >>>>>>> interface
+                                    <div dangerouslySetInnerHTML={{ __html: story.description }} />
+                                </div>
+                                {/* <ReactQuill
+                                    value={story.description}
+                                    readOnly={true}
+                                    theme={"bubble"}
+                                /> */}
                             </div>
                             <div style={{clear: "both"}}/>
                             <div style={{clear: "both"}}/>

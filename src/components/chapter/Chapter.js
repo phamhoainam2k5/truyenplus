@@ -88,7 +88,7 @@ function Chapter() {
             <div className="chapter_wrap">
                 <div className="chapter_control" id="gotochap">
                     <a href="#" onClick={handlePreviousChapter}
-                       className={`back ${isFirstChapter ? 'disabled' : ''}`}>&lt;&lt; Chương trước</a>
+                        className={`back ${isFirstChapter ? 'disabled' : ''}`}>&lt;&lt; Chương trước</a>
                     <a onClick={handleEditClick} className="btn-dschuong"/>
                     <a href="#" onClick={handleNextChapter} className={`next ${isLastChapter ? 'disabled' : ''}`}>Chương
                         tiếp &gt;&gt;</a>

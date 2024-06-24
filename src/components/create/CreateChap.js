@@ -1,13 +1,12 @@
 import React, {useState} from "react";
-import ReactQuill from 'react-quill';
 import {Link, useNavigate, useParams} from "react-router-dom";
+import {Add, ArrowBack} from "@mui/icons-material";
+import {Alert, Modal, Stack} from "@mui/material";
+import ReactQuill from "react-quill";
+import striptags from "striptags";
 import axios from "axios";
 import "./../list/List.css";
-import {Add, ArrowBack} from "@mui/icons-material";
-import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
-import {Alert, Modal, Stack} from "@mui/material";
-import striptags from "striptags";
 
 function CreateChap() {
     const {storyId} = useParams();
@@ -16,34 +15,25 @@ function CreateChap() {
     const [chapterNumber, setChapterNumber] = useState("");
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
-
     const handleClose = () => setOpen(false);
 
     const formats = [
         'font', 'size',
         'bold', 'italic', 'underline', 'strike',
-
-
         'header', 'blockquote',
         'indent',
         'direction', 'align',
-
     ];
 
     const modules = {
         toolbar: [
             [{'font': []}, {'size': []}],
-            ['bold', 'italic', 'underline', 'strike'],
-
-
-            [{'header': '1'}, {'header': '2'}, 'blockquote'],
+            ['bold', 'italic', 'underline'],
             [{'indent': '-1'}, {'indent': '+1'}],
-            [{'direction': 'rtl'}],
             [{'align': []}],
-
-            ['clean']
         ]
     };
+
     const handleChangeContent = (value) => {
         setContent(value);
     };
@@ -93,7 +83,6 @@ function CreateChap() {
             });
     };
 
-
     return (
         <>
             <main className="single_pages">
@@ -116,17 +105,16 @@ function CreateChap() {
                                         <h3>Tiêu đề:</h3>
                                         <input 
                                             type="text" 
-                                            // style={{
-                                                
-                                            // }} 
                                             placeholder="Nhập tiêu đề" 
                                             value={title}
-                                            onChange={(e) => setTitle(e.target.value)} required
+                                            onChange={(e) => setTitle(e.target.value)} 
+                                            required
                                         />
                                     </div>
                                 </div>
                                 <div className="form-content-chapter">
                                     <h3>Nội dung:</h3>
+                                    <div aria-required={true}></div>
                                     <ReactQuill
                                         placeholder="Nhập nội dung chương..."
                                         style={{ 
@@ -135,71 +123,33 @@ function CreateChap() {
                                         }}
                                         className="react-quill-editor"
                                         theme='snow'
-                                        modules={{
-                                            toolbar: [
-                                                [{ 'font': [] }],
-                                                ['bold', 'italic', 'underline'],
-                                                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                                                [{ 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' }]
-                                            ]
-                                        }}
+                                        value={content}
+                                        onChange={handleChangeContent}
+                                        modules={modules}
+                                        formats={formats}
                                     />
                                 </div>
                                 <div className="btn" style={{display: 'flex', marginTop: '55px'}}>
                                     <div>
-// <<<<<<< interface-text-editor
-//                                         <button type="submit" style={{
-//                                             fontWeight: "bold",
-//                                             padding: '10px',
-//                                             width: '100px',
-//                                             background: 'red',
-//                                             borderRadius: '5px'
-//                                         }}>Submit
-//                                         </button>
-//                                     </div>
-//                                     <div className="item add-product" style={{width: "30%"}}>
-//                                         <Link to={`/chapters/${storyId}`} style={{color: "black"}}>
-//                                             <div>
-//                                                 <ArrowBack className="material-icons-sharp">add</ArrowBack>
-//                                                 <p>Quay về danh sách chương</p>
-//                                             </div>
-//                                         </Link>
-//                                     </div>
-//                                 </div>
-// =======
-//                                         <ArrowBack className="material-icons-sharp">add</ArrowBack>
-//                                         <p>Quay về danh sách chương</p>
-//                                     </div>
-//                                 </Link>
-//                             </div>
-
-//                             <form onSubmit={handleSubmit}>
-//                                 <h3>Tiêu đề:</h3>
-//                                 <input type="text" className="title" placeholder="Nhập tiêu đề" value={title}
-//                                        onChange={(e) => setTitle(e.target.value)} required/><br/><br/>
-
-//                                 <h3>Nội dung:</h3>
-//                                 <div aria-required={true}></div>
-//                                 <ReactQuill
-//                                     value={content}
-//                                     onChange={handleChangeContent}
-//                                     modules={modules}
-//                                     formats={formats}
-
-//                                 />
-//                                 <br/>
-//                                 <h3>Số chương:</h3>
-//                                 <input type="number" className="chapterNumber" placeholder="Nhập số chương"
-//                                        value={chapterNumber}
-//                                        onChange={(e) => setChapterNumber(e.target.value)} required/><br/><br/>
-
-//                                 <button type="submit" style={{
-//                                     padding: '10px',
-//                                     width: '100px', background: 'var(--color-danger)',
-//                                     borderRadius: 'var(--border-radius-1)'
-//                                 }}>Submit
-//                                 </button>
-// >>>>>>> interface
+                                        <button type="submit" style={{
+                                            fontWeight: "bold",
+                                            padding: '10px',
+                                            width: '100px',
+                                            background: 'red',
+                                            borderRadius: '5px'
+                                        }}>
+                                        Submit
+                                        </button>
+                                    </div>
+                                    <div className="item add-product" style={{width: "30%"}}>
+                                        <Link to={`/chapters/${storyId}`} style={{color: "black"}}>
+                                            <div>
+                                                <ArrowBack className="material-icons-sharp">add</ArrowBack>
+                                                <p>Quay về danh sách chương</p>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>

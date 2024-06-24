@@ -65,10 +65,11 @@ function Home() {
                                                 <a className="cover" >
                                                     <img src={'http://localhost:8080/'+story.image} alt={story.title} />
                                                     <span  />
-//                                                 <a className="cover">
-//                                                     <img src={`http://localhost:8080/video/${story.image}`}
-//                                                          alt={story.title}/>
-//                                                     <span/>
+                                                    {/* <a className="cover">
+                                                        <img src={`http://localhost:8080/video/${story.image}`}
+                                                            alt={story.title}
+                                                        />
+                                                    <span/> */}
                                                 </a>
                                                 <div className="info">
                                                     <h3>

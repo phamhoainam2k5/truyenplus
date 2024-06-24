@@ -14,31 +14,24 @@ function EditChap() {
     const [content, setContent] = useState("");
     const [chapterNumber, setChapterNumber] = useState("");
     const navigate = useNavigate();
+
     const formats = [
         'font', 'size',
         'bold', 'italic', 'underline', 'strike',
-
-
         'header', 'blockquote',
         'indent',
         'direction', 'align',
-
     ];
-    const [open, setOpen] = useState(false);
 
+    const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
+
     const modules = {
         toolbar: [
             [{'font': []}, {'size': []}],
             ['bold', 'italic', 'underline', 'strike'],
-
-
-            [{'header': '1'}, {'header': '2'}, 'blockquote'],
             [{'indent': '-1'}, {'indent': '+1'}],
-            [{'direction': 'rtl'}],
             [{'align': []}],
-
-            ['clean']
         ]
     };
     const handleChangeContent = (value) => {
@@ -46,16 +39,17 @@ function EditChap() {
     };
     useEffect(() => {
 
-        axios.get(`http://localhost:8080/api/chapters/${chapterId}`)
-            .then(response => {
-                const chapterData = response.data;
-                setTitle(chapterData.title);
-                setContent(chapterData.content);
-                setChapterNumber(chapterData.chapterNumber);
-            })
-            .catch(error => {
-                console.error("Lỗi rùi hu hu:", error);
-            });
+    axios.get(`http://localhost:8080/api/chapters/${chapterId}`)
+        .then(response => {
+            const chapterData = response.data;
+            setTitle(chapterData.title);
+            setContent(chapterData.content);
+            setChapterNumber(chapterData.chapterNumber);
+        })
+        
+        .catch(error => {
+            console.error("Lỗi rùi hu hu:", error);
+        });
     }, []);
 
     const handleSubmit = (e) => {
@@ -103,59 +97,70 @@ function EditChap() {
     return (
         <>
             <main className="single_pages">
-                <section className="video_items flex">
-                    <div className="lefts">
+                <section className="video_items fl{ex">
+                    <div className="lefts" style={{width: '650px'}}>
                         <div className="left_content">
-                            <div className="item add-product" style={{width: "30%"}}>
-                                <Link to={`/chapters/${storyId}`}>
-                                    <div>
-                                        <ArrowBack className="material-icons-sharp">add</ArrowBack>
-                                        <p>Quay về danh sách chương</p>
+                            <form onSubmit={handleSubmit} >
+                                <div className="form-infor-chapter">
+                                    <div className="number-chapters">
+                                        <h3>Số chương:</h3>
+                                        <input 
+                                            type="number" 
+                                            className="chapterNumber" 
+                                            placeholder="Nhập số chương"
+                                            value={chapterNumber}
+                                            onChange={(e) => setChapterNumber(e.target.value)} required
+                                        />
                                     </div>
-                                </Link>
-                            </div>
-
-                            <form onSubmit={handleSubmit}>
-                                <h3>Tiêu đề:</h3>
-                                <input
-                                    type="text"
-                                    className="title"
-                                    placeholder="Nhập tiêu đề"
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                    required
-                                />
-                                <br/>
-                                <br/>
-
-                                <h3>Nội dung:</h3>
-                                <ReactQuill
-                                    value={content}
-                                    onChange={handleChangeContent}
-                                    modules={modules}
-                                    formats={formats}
-                                />
-                                <br/>
-                                <br/>
-
-                                <h3>Số chương:</h3>
-                                <input
-                                    type="number"
-                                    className="chapterNumber"
-                                    readOnly={true}
-                                    value={chapterNumber}
-                                    onChange={(e) => setChapterNumber(e.target.value)}
-                                    required
-                                />
-                                <br/>
-                                <br/>
-
-                                <button type="submit" style={{
-                                    padding: '10px',
-                                    width: '100px', background: 'var(--color-danger)',
-                                    borderRadius: 'var(--border-radius-1)'
-                                }}>Submit
-                                </button>
+                                    <div className="title-chapter">
+                                        <h3>Tiêu đề:</h3>
+                                        <input 
+                                            type="text" 
+                                            placeholder="Nhập tiêu đề" 
+                                            value={title}
+                                            onChange={(e) => setTitle(e.target.value)} 
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="form-content-chapter">
+                                    <h3>Nội dung:</h3>
+                                    <div aria-required={true}></div>
+                                    <ReactQuill
+                                        placeholder="Nhập nội dung chương..."
+                                        style={{ 
+                                            height: '550px', 
+                                            width: '610px',
+                                        }}
+                                        className="react-quill-editor"
+                                        theme='snow'
+                                        value={content}
+                                        onChange={handleChangeContent}
+                                        modules={modules}
+                                        formats={formats}
+                                    />
+                                </div>
+                                <div className="btn" style={{display: 'flex', marginTop: '55px'}}>
+                                    <div>
+                                        <button type="submit" style={{
+                                            fontWeight: "bold",
+                                            padding: '10px',
+                                            width: '100px',
+                                            background: 'red',
+                                            borderRadius: '5px'
+                                        }}>
+                                        Submit
+                                        </button>
+                                    </div>
+                                    <div className="item add-product" style={{width: "30%"}}>
+                                        <Link to={`/chapters/${storyId}`} style={{color: "black"}}>
+                                            <div>
+                                                <ArrowBack className="material-icons-sharp">add</ArrowBack>
+                                                <p>Quay về danh sách chương</p>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
