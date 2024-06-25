@@ -10,10 +10,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 @EnableJpaAuditing
 public class WebConfig implements WebMvcConfigurer {
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/video/**")
-                .addResourceLocations("file:D:/IdeaProjects/tmp/image/");
-        registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/static/");
-    }}
+        @Override
+        public void addResourceHandlers(ResourceHandlerRegistry registry) {
+                registry.addResourceHandler("/video/**")
+                        .addResourceLocations("file:D:/IdeaProjects/tmp/image/");
+                registry.addResourceHandler("/**")
+                        .addResourceLocations("classpath:/static/");
+        }
+}

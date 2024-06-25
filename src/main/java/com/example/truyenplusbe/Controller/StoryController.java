@@ -39,9 +39,8 @@ public class StoryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Story> getStoryById(@PathVariable Long id) {
-       Optional<Story> story = storyService.findById(id);
+        Optional<Story> story = storyService.findById(id);
         return new ResponseEntity<>(story.get(), HttpStatus.OK);
-
     }
 
     @PostMapping("")

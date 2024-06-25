@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data @Entity @Table(name = "storys") @AllArgsConstructor @NoArgsConstructor
+@Data @Entity @Table(name = "stories") @AllArgsConstructor @NoArgsConstructor
 public class Story {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "story_id")
