@@ -5,15 +5,12 @@ import com.example.truyenplusbe.Model.Story;
 import com.example.truyenplusbe.Repository.IStoryRepository;
 import com.example.truyenplusbe.Service.IStoryService;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.print.Pageable;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;

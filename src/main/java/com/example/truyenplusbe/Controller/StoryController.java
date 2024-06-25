@@ -4,15 +4,11 @@ package com.example.truyenplusbe.Controller;
 import com.example.truyenplusbe.Dto.StoryDTO;
 import com.example.truyenplusbe.Model.Story;
 import com.example.truyenplusbe.Repository.IStoryRepository;
-import com.example.truyenplusbe.Service.IStoryService;
 import com.example.truyenplusbe.Service.imp.StoryService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.util.Optional;

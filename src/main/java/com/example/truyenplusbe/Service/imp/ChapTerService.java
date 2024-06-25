@@ -2,7 +2,6 @@ package com.example.truyenplusbe.Service.imp;
 
 
 import com.example.truyenplusbe.Dto.ChapDTO;
-import com.example.truyenplusbe.Dto.StoryDTO;
 import com.example.truyenplusbe.Model.Chapter;
 import com.example.truyenplusbe.Model.Story;
 import com.example.truyenplusbe.Repository.IChapterRepository;
@@ -10,12 +9,8 @@ import com.example.truyenplusbe.Repository.IStoryRepository;
 import com.example.truyenplusbe.Service.IChapterService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
