@@ -1,2 +1,5 @@
 .idea/
 .vscode/
+build/
+.gradle/
+/build/classes/java/main/com/example/truyenplusbe/Config/WebConfig.class
