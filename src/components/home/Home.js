@@ -63,10 +63,10 @@ function Home() {
                                         {stories.map((story, index) => (
                                             <div className="item" key={index}>
                                                 <a className="cover" >
-                                                    <img src={'http://localhost:8080/'+story.image} alt={story.title} />
+                                                    <img src={'http://localhost:8080/'+story.image} alt={story.title} className="responsive-img"/>
                                                     <span  />
                                                     {/* <a className="cover">
-                                                        <img src={`http://localhost:8080/video/${story.image}`}
+                                                        <img src={`http://localhost:8080/video/${story.image} className="responsive-img"`}
                                                             alt={story.title}
                                                         />
                                                     <span/> */}
@@ -98,10 +98,15 @@ function Home() {
                                         <Slider {...settings} className="listitems">
                                             {storiesStatus.map((story, index) => (
                                                 <div className="item" key={index}>
-                                                    <a className="cover" href={`/`}>
-                                                        <img src={`http://localhost:8080/video/${story.image}`}
-                                                             alt={story.title}/>
-                                                    </a>
+                                                    <a className="cover" >
+                                                    <img src={'http://localhost:8080/'+story.image} alt={story.title} className="responsive-img"/>
+                                                    <span  />
+                                                    {/* <a className="cover">
+                                                        <img src={`http://localhost:8080/video/${story.image}` className="responsive-img"}
+                                                            alt={story.title}
+                                                        />
+                                                    <span/> */}
+                                                </a>
                                                     <div className="info">
                                                         <h3>
                                                             <a href={`/`} title={story.title}>
@@ -109,7 +114,7 @@ function Home() {
                                                             </a>
                                                         </h3>
                                                         <small className="label-full">
-                                                            <span>Full</span> {story.totalChapters} chương
+                                                            <span>Full</span>
                                                         </small>
                                                     </div>
                                                 </div>

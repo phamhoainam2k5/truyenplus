@@ -57,6 +57,7 @@ function EditChap() {
 
         const currentContent = content;
         const currentTitle = title;
+        const currentChapterNumber = chapterNumber;
 
         // Loại bỏ các thẻ HTML chỉ để kiểm tra độ dài nội dung
         const plainTextContent = striptags(currentContent);
@@ -73,8 +74,8 @@ function EditChap() {
         }
         const updatedChapterData = {
             title: currentTitle,
-            content: currentContent
-
+            content: currentContent,
+            chapterNumber: currentChapterNumber
         };
 
         axios.put(`http://localhost:8080/api/chapters/${chapterId}`, updatedChapterData)
