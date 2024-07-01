@@ -19,7 +19,7 @@ public class Chapter {
     @Column(name = "title", nullable = false, length = 255)
     private String title;
 
-    @Lob @Column(name = "content", nullable = false)
+    @Lob @Column(name = "content", nullable = false, columnDefinition = "LONGTEXT")
     private String content;
 
     @Column(name = "chapter_number", nullable = false)

@@ -24,7 +24,7 @@ public class Story {
     @Column(name = "image", nullable = false, length = 255)
     private String image;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "LONGTEXT")
     private String description;
 
     @Column(name = "author", length = 255)

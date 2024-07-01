@@ -9,13 +9,13 @@ import java.util.List;
 
 @Repository
 public interface IStoryRepository  extends JpaRepository<Story, Long> {
-    @Query(value = "SELECT * FROM storys ORDER BY created_at DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM stories ORDER BY created_at DESC", nativeQuery = true)
     public Iterable<Story>findByCreatedAtOrderBy();
 
-    @Query(value = "SELECT * FROM storys WHERE status=\"Full\"", nativeQuery = true)
+    @Query(value = "SELECT * FROM stories WHERE status=\"Full\"", nativeQuery = true)
     public Iterable<Story>findByStatus();
 
-    @Query(value = "SELECT COUNT(*) FROM storys WHERE story_id = :storyId AND total_chapters > 0", nativeQuery = true)
+    @Query(value = "SELECT COUNT(*) FROM stories WHERE story_id = :storyId AND total_chapters > 0", nativeQuery = true)
     int countStoriesWithChapters( Long storyId);
 
     List<Story> findByCategories_CategoryId(Long categoryId);
