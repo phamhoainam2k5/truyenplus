@@ -448,7 +448,7 @@ main{
     position: relative;
     overflow: hidden; /* Đảm bảo hình ảnh không vượt ra ngoài container */
     width: 100%;
-    height: 300px; /* Chiều cao cố định của container */
+    /* height: 300px; Chiều cao cố định của container */
 }
 .home-content .item .cover img {
     border: 1px solid #eaeaea;
