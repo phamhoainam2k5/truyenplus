@@ -151,7 +151,7 @@ function Home() {
                                                     <div className="item" key={index}>
                                                         <Link className="cover" to={`/story/${story.storyId}`}>
                                                             <img src={story.image}
-                                                                 alt={story.title}/>
+                                                                alt={story.title}/>
                                                             <span/>
                                                         </Link>
                                                         <div className="info">

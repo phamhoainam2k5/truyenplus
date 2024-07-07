@@ -1,11 +1,12 @@
 import "./Chap.css"
 import React, {useEffect, useState} from "react";
-import {CircularProgress, Dialog} from "@mui/material";
-import {Close} from "@mui/icons-material";
+import {CircularProgress, Dialog, IconButton, Tooltip, Menu, MenuItem} from "@mui/material";
+import {Close, Settings} from "@mui/icons-material";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.bubble.css'
+
 function Chap() {
     const [openEditModal, setOpenEditModal] = useState(false);
     const {chapterId, storyId} = useParams();
@@ -13,6 +14,9 @@ function Chap() {
 
     const [chapters, setChapters] = useState([]);
     const [chapter, setChapter] = useState(null);
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [fontSize, setFontSize] = useState(18);
 
     useEffect(() => {
         const fetchChapterInfo = async () => {
@@ -34,12 +38,9 @@ function Chap() {
         setOpenEditModal(false);
     };
 
-
     const handleEditClick = () => {
         setOpenEditModal(true);
     };
-
-
 
     useEffect(() => {
         const fetchChapters = async () => {
@@ -92,116 +93,123 @@ function Chap() {
         }
     };
 
+    const handleSettingClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+    
+    const handleIncreaseFontSize = () => {
+        if (fontSize < 40) {
+            setFontSize(fontSize + 2);
+        }
+    };
+    
+    const handleDecreaseFontSize = () => {
+        if (fontSize > 18) {
+            setFontSize(fontSize - 2);
+        }
+    };
+
     return (
         <div>
-            <div
-                className="breadcrumb breadcrumbs"
-                itemScope=""
-                itemType="/home"
-            >
+            <div className="breadcrumb breadcrumbs" itemScope="" itemType="/home" >
                 <div className="rdfa-breadcrumb">
                     <div>
                         <p>
-          <span
-              itemProp="itemListElement"
-              itemScope=""
-              itemType="/home"
-          >
-            <a
-                itemProp="url"
-                href="/home"
-                className="home"
-                title="Truyện Plus"
-            >
-              <span itemProp="name" className="bc-sm-hidden">
-                Đọc truyện online
-              </span>
-              <span itemProp="name" className="bc-home">
-                Truyện
-              </span>
-              <meta itemProp="position" content={1}/>
-            </a>
-          </span>
+                            <span itemProp="itemListElement" itemScope="" itemType="/home" >
+                                <a itemProp="url" href="/home" className="home" title="Truyện Plus">
+                                    <span itemProp="name" className="bc-sm-hidden">
+                                        Đọc truyện online
+                                    </span>
+                                    <span itemProp="name" className="bc-home">
+                                        Truyện
+                                    </span>
+                                    <meta itemProp="position" content={1}/>
+                                </a>
+                            </span>
                             <span className="separator">»</span>
-                            <span
-                                itemScope=""
-                                itemProp="itemListElement"
-                                itemType="/home"
-                            >
-             <Link to={`/story/${storyId}`}>
-
-
-              <span itemProp="item">
-                            {chapter.story.title}
-              </span>
-              <meta itemProp="position" content={2}/>
-           </Link>
-          </span>
+                            <span itemScope="" itemProp="itemListElement" itemType="/home" >
+                                <Link to={`/story/${storyId}`}>
+                                    <span itemProp="item">
+                                        {chapter.story.title}
+                                    </span>
+                                    <meta itemProp="position" content={2}/>
+                                </Link>
+                            </span>
                             <span className="separator bc-sm-hidden">»</span>
-                            <span
-                                className="bc-sm-hidden"
-                                itemScope=""
-                                itemProp="itemListElement"
-                                itemType="/home"
-                            >
-            <span itemProp="item">Chương {chapter.chapterNumber}</span>
-            <meta itemProp="position" content={3}/>
-          </span>
+                            <span className="bc-sm-hidden" itemScope="" itemProp="itemListElement" itemType="/home" >
+                                <span itemProp="item">Chương {chapter.chapterNumber}</span>
+                                <meta itemProp="position" content={3}/>
+                            </span>
                         </p>
                     </div>
                 </div>
-            </div>
-
-
-    <div
-        className="vung-doc"
-        id="vungdoc"
-        style={{backgroundColor: "#fafaf3", color: "#000000", fontSize: 18}}
-
-    >
-        <div className="chapter_wrap">
-            <div className="chapter_control" id="gotochap">
-                <span
-                    onClick={handlePreviousChapter}
-                    className={`back ${isFirstChapter ? 'disabled' : ''}`}
+                <Tooltip title="Cài đặt">
+                    <IconButton className="setting-button" onClick={handleSettingClick}>
+                        <Settings />
+                    </IconButton>
+                </Tooltip>
+                <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleMenuClose}
                 >
-                    &lt;&lt; Chương trước
-                </span>
-                <span onClick={handleEditClick} className="btn-dschuong"/>
-                <span onClick={handleNextChapter}
-                      className={`next ${isLastChapter ? 'disabled' : ''}`}>
-                    Chương tiếp &gt;&gt;
-                </span>
+                    <MenuItem onClick={handleIncreaseFontSize}>Tăng cỡ chữ</MenuItem>
+                    <MenuItem onClick={handleDecreaseFontSize}>Giảm cỡ chữ</MenuItem>
+                </Menu>
             </div>
-            <div>
-                <h1 className="current-book">
-                    <Link to={`/story/${storyId}`}>
-                        {chapter.story.title}
-                    </Link>
-                    <span className="current-chapter">
-        Chương {chapter.chapterNumber}: {chapter.title}</span>
-                </h1>
-            </div>
-            <div className="clearfix"/>
-        </div>
-        <div className="truyen">
-            <ReactQuill
-                value={chapter.content}
-                readOnly={true}
-                theme={"bubble"}
-            />
-        </div>
-            <div className="chapter_wrap">
-                <div className="clearfix"/>
-                <div className="chapter_control control--last">
-                    <span onClick={handleNextChapter}
-                          className={`next ${isLastChapter ? 'disabled' : ''}`}>
-                        Chương tiếp &gt;&gt;
-                    </span>
+            <div
+                className="vung-doc"
+                id="vungdoc"
+            >
+                <div className="chapter_wrap">
+                    <div className="chapter_control" id="gotochap">
+                        <span
+                            onClick={handlePreviousChapter}
+                            className={`back ${isFirstChapter ? 'disabled' : ''}`}
+                        >
+                            &lt;&lt; Chương trước
+                        </span>
+                        <span onClick={handleEditClick} className="btn-dschuong"/>
+                        <span onClick={handleNextChapter}
+                            className={`next ${isLastChapter ? 'disabled' : ''}`}>
+                            Chương tiếp &gt;&gt;
+                        </span>
+                    </div>
+                    <div>
+                        <h1 className="current-book">
+                            <Link to={`/story/${storyId}`}>
+                                {chapter.story.title}
+                            </Link>
+                            <span className="current-chapter">
+                                Chương {chapter.chapterNumber}: {chapter.title}
+                            </span>
+                        </h1>
+                    </div>
+                    <div className="clearfix"/>
                 </div>
-                <div className="clearfix"/>
+                <div className="truyen">
+                    <ReactQuill
+                        value={chapter.content}
+                        readOnly={true}
+                        theme={"bubble"}
+                        className={`custom-font-size--${fontSize}`}
+                    />
+                </div>
+                <div className="chapter_wrap">
+                    <div className="clearfix"/>
+                    <div className="chapter_control control--last">
+                        <span onClick={handleNextChapter}
+                            className={`next ${isLastChapter ? 'disabled' : ''}`}>
+                            Chương tiếp &gt;&gt;
+                        </span>
+                    </div>
+                    <div className="clearfix"/>
+                </div>
             </div>
-        </div>
             <Dialog open={openEditModal} onClose={handleCloseEditModal}>
                 <div id="browse-chapter">
                     <div className="title-list-chapter"><span>Danh sách chương</span>
@@ -214,7 +222,7 @@ function Chap() {
                                     {chapters.map((chap, index) => (
                                         <div className="col-md-6 col-sm-12" key={index}>
                                             <span>
-                                                   Chương {chap.chapterNumber} :
+                                                Chương {chap.chapterNumber} :
                                                 <Link to={`/chapter/${storyId}/${chap.chapterId}`}>
                                                     {chap.title}
                                                 </Link>
@@ -228,7 +236,6 @@ function Chap() {
                 </div>
             </Dialog>
         </div>
-
     )
 }
 

@@ -6,7 +6,6 @@
     max-width:940px;
     margin:0 auto;
     color:#000;
-    font-size:18px;
     padding:19px 3.5em;
     box-sizing:border-box;
     min-height:800px;
@@ -247,6 +246,42 @@ span.disabled {
 }
 .chapter-skip a.next:hover{
     background:#b42716;
+}
+.custom-font-size--18 > .ql-container > .ql-editor > p {
+    font-size: 18px;
+}
+.custom-font-size--20 > .ql-container > .ql-editor > p {
+    font-size: 20px;
+}
+.custom-font-size--22 > .ql-container > .ql-editor > p {
+    font-size: 22px;
+}
+.custom-font-size--24 > .ql-container > .ql-editor > p {
+    font-size: 24px;
+}
+.custom-font-size--26 > .ql-container > .ql-editor > p {
+    font-size: 26px;
+}
+.custom-font-size--28 > .ql-container > .ql-editor > p {
+    font-size: 28px;
+}
+.custom-font-size--30 > .ql-container > .ql-editor > p {
+    font-size: 30px;
+}
+.custom-font-size--32 > .ql-container > .ql-editor > p {
+    font-size: 32px;
+}
+.custom-font-size--34 > .ql-container > .ql-editor > p {
+    font-size: 34px;
+}
+.custom-font-size--36 > .ql-container > .ql-editor > p {
+    font-size: 36px;
+}
+.custom-font-size--38 > .ql-container > .ql-editor > p {
+    font-size: 38px;
+}
+.custom-font-size--40 > .ql-container > .ql-editor > p {
+    font-size: 40px;
 }
 
 @media (max-width: 768px){
