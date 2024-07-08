@@ -111,13 +111,11 @@ function Home() {
                                     </div>
                                     <div id="contentstory">
                                         <div className="home-content">
-
                                             <div className="listitems">
                                                 {stories.map((story, index) => (
                                                     <div className="item" key={index}>
                                                         <Link className="cover" to={`/story/${story.storyId}`}>
-                                                            <img src={story.image}
-                                                                 alt={story.title}/>
+                                                            <img src={story.image}alt={story.title}/>
                                                             <span/>
                                                         </Link>
                                                         <div className="info">
@@ -126,16 +124,13 @@ function Home() {
                                                                     {story.title}
                                                                 </Link>
                                                             </h3>
-
                                                             <Link to={`/story/${story.storyId}`} className="sts sts_1">
-
                                                                 {story.totalChapters} Chương
                                                             </Link>
                                                         </div>
                                                     </div>
                                                 ))}
                                             </div>
-
                                         </div>
                                     </div>
                                     <div className="daily-update">
@@ -161,18 +156,15 @@ function Home() {
                                                                 </Link>
                                                             </h3>
                                                             <small className="label-full">
-                                                                <span>Full</span> {story.totalChapters} chương
+                                                                <span>Full {story.totalChapters} chương</span>
                                                             </small>
                                                         </div>
                                                     </div>
                                                 ))}
                                             </Slider>
-
-
                                         </div>
                                     </div>
                                 </div>
-
                                 <div className="clearfix"/>
                                 <div className="onpage">
                                     <div className={`onpagetext ${isExpanded ? 'expand' : ''}`}>
