@@ -111,12 +111,12 @@ function List() {
                                             <table className="responsive-table">
                                                 <thead>
                                                 <tr>
-                                                    <th>STT</th>
-                                                    <th>Tên truyện</th>
-                                                    <th>Tác giả</th>
-                                                    <th>Danh mục</th>
+                                                    {/* <th>STT</th> */}
+                                                    <th style={{width: 350}}>Tên truyện</th>
+                                                    <th style={{width: 250}}>Tác giả</th>
+                                                    <th style={{width: 400}}>Danh mục</th>
                                                     <th>Trạng thái</th>
-                                                    <th>Tổng số chương</th>
+                                                    <th style={{width: 150}}>Tổng số chương</th>
                                                     <th>Hành động</th>
                                                 </tr>
                                                 </thead>
@@ -124,10 +124,10 @@ function List() {
 
                                                     {currentStories.map((story, index) => (
                                                         <tr key={story.storyId}>
-                                                            <td>{index + 1}</td>
-                                                            <td>{story.title}</td>
-                                                            <td>{story.author}</td>
-                                                            <td>
+                                                            {/* <td>{index + 1}</td> */}
+                                                            <td style={{textAlign: "left"}}>{story.title}</td>
+                                                            <td style={{textAlign: "left"}}>{story.author}</td>
+                                                            <td style={{textAlign: "left"}}>
                                                                 {story.categories.map(category => category.categoryName).join(", ")}
                                                             </td>
                                                             <td>{story.status}</td>

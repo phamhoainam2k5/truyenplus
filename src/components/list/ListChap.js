@@ -107,8 +107,8 @@ function ListChap() {
                                             <table className="responsive-table">
                                                 <thead>
                                                 <tr>
-                                                    <th>STT</th>
-                                                    <th>Số chương</th>
+                                                    {/* <th>STT</th> */}
+                                                    <th style={{width: 100}}>Số chương</th>
                                                     <th>Tên chương</th>
                                                     <th>Tên truyện</th>
 
@@ -119,9 +119,9 @@ function ListChap() {
 
                                                 {currentChaps.map((chap, index) => (
                                                     <tr key={chap.chapterId}>
-                                                        <td>{index + 1}</td>
+                                                        {/* <td>{index + 1}</td> */}
                                                         <td>{chap.chapterNumber}</td>
-                                                        <td>{chap.title}</td>
+                                                        <td style={{textAlign: "left"}}>{chap.title}</td>
                                                         <td>{chap.story.title}</td>
                                                         <td>
                                                             <Tooltip title="Sửa chương">
